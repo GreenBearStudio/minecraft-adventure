@@ -34,3 +34,41 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Folder structure
+
+gaming-storyboard-site/
+├── content/
+│   └── episodes/
+│       ├── episode-01.mdx
+│       ├── episode-02.mdx
+│       └── ... more episodes
+│
+├── components/
+│   ├── Layout.tsx            # Global layout wrapper (header, footer, nav)
+│   ├── ImageGallery.tsx      # Reusable MDX component for image grids
+│   ├── VideoEmbed.tsx        # Reusable MDX component for video iframes
+│   └── StoryFlowEmbed.tsx    # Reusable MDX component for interactive flows
+│
+├── pages/
+│   ├── _app.tsx              # Global MDXProvider + wraps pages in Layout
+│   ├── index.tsx             # Homepage: auto-discovers episodes, shows grid
+│   ├── about.tsx             # About page: project description, auto nav
+│   └── episodes/
+│       └── [slug].tsx        # Dynamic route: renders each episode with MDXRemote
+│
+├── public/
+│   ├── images/
+│   │   ├── phase1.png
+│   │   ├── phase2.png
+│   │   └── default.png
+│   └── clips/
+│       └── boss-phase.mp4
+│
+├── styles/
+│   └── globals.css           # Global styles (or Tailwind config if used)
+│
+├── next.config.ts
+├── package.json
+└── tsconfig.json
+
