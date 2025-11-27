@@ -36,7 +36,7 @@ export default function EpisodePage({ source, frontmatter }: Props) {
         />
       )}
       {/* Pass components here */}
-      <MDXRemote {...source} components={{ ImageGallery, VideoEmbed, StoryFlowEmbed }} />
+      <MDXRemote {...source} />
     </main>
   )
 }
