@@ -1,30 +1,23 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import Link from 'next/link'
 import type { GetStaticProps } from 'next'
+import Layout from '../components/Layout'
 
-type Episode = {
-  slug: string
-  title: string
-  description: string
-  thumbnail: string
-  date: string
-}
+type Episode = { slug: string; title: string; description?: string; thumbnail?: string; date?: string }
 
-type Props = {
-  episodes: Episode[]
-}
+type Props = { episodes: Episode[] }
 
 export default function Home({ episodes }: Props) {
   return (
-    <main style={{ padding: '2rem' }}>
+    <Layout episodes={episodes}>
       <h1>Gaming Storyboard Episodes</h1>
       <div
         style={{
           display: 'grid',
           gap: '2rem',
           gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+          marginTop: '2rem',
         }}
       >
         {episodes.map((ep) => (
@@ -36,20 +29,22 @@ export default function Home({ episodes }: Props) {
               borderRadius: '8px',
             }}
           >
-            <Link href={`/episodes/${ep.slug}`}>
-              <img
-                src={ep.thumbnail}
-                alt={ep.title}
-                style={{ width: '100%', borderRadius: '4px' }}
-              />
+            <a href={`/episodes/${ep.slug}`}>
+              {ep.thumbnail && (
+                <img
+                  src={ep.thumbnail}
+                  alt={ep.title}
+                  style={{ width: '100%', borderRadius: '4px' }}
+                />
+              )}
               <h2>{ep.title}</h2>
-            </Link>
-            <p>{ep.description}</p>
-            <small>{ep.date}</small>
+            </a>
+            {ep.description && <p>{ep.description}</p>}
+            {ep.date && <small>{ep.date}</small>}
           </div>
         ))}
       </div>
-    </main>
+    </Layout>
   )
 }
 
@@ -64,7 +59,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       const fullPath = path.join(episodesDir, file)
       const fileContents = fs.readFileSync(fullPath, 'utf8')
       const { data } = matter(fileContents)
-
       return {
         slug,
         title: data.title || slug,
@@ -73,7 +67,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         date: data.date || '',
       }
     })
-    // sort newest first if date is provided
     .sort((a, b) => (a.date < b.date ? 1 : -1))
 
   return { props: { episodes } }
