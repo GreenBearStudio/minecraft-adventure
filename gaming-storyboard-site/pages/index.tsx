@@ -11,7 +11,7 @@ type Props = { episodes: Episode[] }
 export default function Home({ episodes }: Props) {
   return (
     <Layout episodes={episodes}>
-      <h1>Gaming Storyboard Episodes</h1>
+      <h1>Hunjvo's Episodes</h1>
       <div
         style={{
           display: 'grid',
