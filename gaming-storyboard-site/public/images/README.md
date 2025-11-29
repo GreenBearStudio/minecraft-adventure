@@ -1,0 +1,2 @@
+- image width = 600
+- image height = 338
