@@ -6,7 +6,9 @@ const withMDX = createMDX({
 })
 
 const nextConfig: NextConfig = {
-  pageExtensions: ['ts', 'tsx', 'md', 'mdx']
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+  reactStrictMode: true,
+  output: 'export',
 }
 
 export default withMDX(nextConfig)

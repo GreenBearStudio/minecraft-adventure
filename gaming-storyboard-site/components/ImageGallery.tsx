@@ -1,10 +1,10 @@
-type Props = { images: string[] }
-
-export default function ImageGallery({ images }: Props) {
+export default function ImageGallery({ images }: { images: string[] }) {
   return (
-    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+    <div className="media-block">
       {images.map((src, i) => (
-        <img key={i} src={src} alt={`screenshot-${i}`} width="300" />
+        <div key={i} className="media-item">
+          <img src={src} alt={`screenshot-${i}`} />
+        </div>
       ))}
     </div>
   )

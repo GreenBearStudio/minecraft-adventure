@@ -14,28 +14,21 @@ export default function ChoiceBlock({ prompt, choices }: Props) {
   const [selected, setSelected] = useState<number | null>(null)
 
   return (
-    <div style={{ margin: '1rem 0', padding: '1rem', border: '1px solid #ccc' }}>
+    <div className="choice-block">
       <p><strong>{prompt}</strong></p>
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+      <div className="choice-buttons">
         {choices.map((choice, i) => (
           <button
             key={i}
             onClick={() => setSelected(i)}
-            style={{
-              padding: '0.5rem 1rem',
-              borderRadius: '4px',
-              border: '1px solid #888',
-              background: selected === i ? '#444' : '#eee',
-              color: selected === i ? '#fff' : '#000',
-              cursor: 'pointer'
-            }}
+            className={`button ${selected === i ? 'button-primary' : 'button-secondary'}`}
           >
             {choice.label}
           </button>
         ))}
       </div>
       {selected !== null && (
-        <div style={{ marginTop: '1rem' }}>
+        <div className="choice-content">
           {choices[selected].content}
         </div>
       )}

@@ -5,37 +5,18 @@ import type { GetStaticProps } from 'next'
 import Layout from '../components/Layout'
 
 type Episode = { slug: string; title: string; description?: string; thumbnail?: string; date?: string }
-
 type Props = { episodes: Episode[] }
 
 export default function Home({ episodes }: Props) {
   return (
     <Layout episodes={episodes}>
       <h1>Hunjvo's Episodes</h1>
-      <div
-        style={{
-          display: 'grid',
-          gap: '2rem',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-          marginTop: '2rem',
-        }}
-      >
+      <div className="episode-grid">
         {episodes.map((ep) => (
-          <div
-            key={ep.slug}
-            style={{
-              border: '1px solid #ccc',
-              padding: '1rem',
-              borderRadius: '8px',
-            }}
-          >
+          <div key={ep.slug} className="episode-card">
             <a href={`/episodes/${ep.slug}`}>
               {ep.thumbnail && (
-                <img
-                  src={ep.thumbnail}
-                  alt={ep.title}
-                  style={{ width: '100%', borderRadius: '4px' }}
-                />
+                <img src={ep.thumbnail} alt={ep.title} />
               )}
               <h2>{ep.title}</h2>
             </a>

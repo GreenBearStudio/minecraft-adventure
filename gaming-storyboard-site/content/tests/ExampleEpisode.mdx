@@ -1,0 +1,15 @@
+import EpisodeScene from '../components/EpisodeScene'
+
+<EpisodeScene
+  title="The Cave Entrance"
+  prompt="Do you enter the cave or stay outside?"
+  choices={[
+    { label: "Enter the cave", content: <p>You step into the darkness...</p> },
+    { label: "Stay outside", content: <p>You wait by the entrance, listening carefully...</p> }
+  ]}
+  media={[
+    { type: "image", src: "/images/cave.png", alt: "Cave entrance" },
+    { type: "video", src: "https://www.youtube.com/embed/dQw4w9WgXcQ", alt: "Cave trailer" }
+  ]}
+/>
+
