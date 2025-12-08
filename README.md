@@ -25,3 +25,14 @@ You can use the keytool -list command to check:
 - If you set a different key password, it will then prompt for that.
 - If you didn’t, the keystore password will also unlock the alias.
 
+## Uploading Images / Videos
+In `files`, go to `images` or `videos`, each has a `sync` script,
+running that will upload files in `todo`, append to txt file and move
+local copy to `uploaded` folder.
+
+Need to activate venv python environment. Run `bash ./setup.bash` to
+create the `.venv` python3 virtual environment.
+
+_NOTE_ activating a virtual environment in script will deactivate it
+once the script is done.
+

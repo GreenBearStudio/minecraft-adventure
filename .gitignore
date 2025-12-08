@@ -1,2 +1,2 @@
-# local files
-files/
+# python3 virtual environment, run setup.bash
+.venv/

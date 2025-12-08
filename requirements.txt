@@ -1,0 +1,2 @@
+requests==2.32.3
+tuspy==0.2.2   # optional, for large file uploads
