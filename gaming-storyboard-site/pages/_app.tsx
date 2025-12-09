@@ -1,7 +1,8 @@
 // pages/_app.tsx
 import type { AppProps } from 'next/app'
 import { MDXProvider } from '@mdx-js/react'
-import { ThemeProvider } from '../context/ThemeContext' 
+import { UIProvider } from '../context/UIContext'
+import { ToastProvider } from '../context/ToastContext'
 
 // Import global stylesheet once here
 import '../styles/globals.css'
@@ -29,11 +30,13 @@ const components = {
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider>
-      <MDXProvider components={components}>
-        <Component {...pageProps} />
-      </MDXProvider>
-    </ThemeProvider>
+    <UIProvider>
+      <ToastProvider>
+        <MDXProvider components={components}>
+          <Component {...pageProps} />
+        </MDXProvider>
+      </ToastProvider>
+    </UIProvider>
   )
 }
 

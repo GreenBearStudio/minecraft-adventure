@@ -3,25 +3,101 @@ import path from 'path'
 import matter from 'gray-matter'
 import type { GetStaticProps } from 'next'
 import Layout from '../components/Layout'
+import { useUI } from '../context/UIContext'
+import { useState, useEffect } from 'react'
 
-type Episode = { slug: string; title: string; description?: string; thumbnail?: string; date?: string }
+type Episode = {
+  slug: string
+  title: string
+  description?: string
+  thumbnail?: string
+  date?: string
+}
+
 type Props = { episodes: Episode[] }
 
 export default function Home({ episodes }: Props) {
+  const { layout, setLayout } = useUI()
+  const [watched, setWatched] = useState<string[]>([])
+  const [hasLoaded, setHasLoaded] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
+
+  // Load watched episodes from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('watchedEpisodes')
+      if (saved) {
+        try {
+          setWatched(JSON.parse(saved))
+        } catch (err) {
+          console.error("Error parsing watchedEpisodes:", err)
+        }
+      }
+      setHasLoaded(true)
+    }
+  }, [])
+
+  // Save watched episodes only after load
+  useEffect(() => {
+    if (hasLoaded) {
+      localStorage.setItem('watchedEpisodes', JSON.stringify(watched))
+    }
+  }, [watched, hasLoaded])
+
+  const markWatched = (slug: string) => {
+    if (!watched.includes(slug)) {
+      setWatched([...watched, slug])
+    }
+  }
+
+  const clearWatched = () => {
+    if (window.confirm("Are you sure you want to clear all watched episodes?")) {
+      setWatched([])
+      localStorage.removeItem('watchedEpisodes')
+      setToast("Watched episodes cleared ✅")
+      setTimeout(() => setToast(null), 3000) // hide after 3s
+    }
+  }
+
   return (
     <Layout episodes={episodes}>
-      <h1>Hunjvo's Episodes</h1>
-      <div className="episode-grid">
+      <h1>Hunjvo&apos;s Episodes</h1>
+
+      {/* Controls */}
+      <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
+          {/* Layout toggle stays here */}
+          <button
+            className="button button-secondary"
+            onClick={() => setLayout(layout === 'grid' ? 'list' : 'grid')}
+          >
+            {layout === 'grid' ? '📋 List View' : '🔲 Grid View'}
+          </button>
+
+          {/* Link to Settings for clearing watched */}
+          <a href="/settings" className="button button-danger">
+            ⚙️ Reset Progress (Go to Settings)
+          </a>
+      </div>
+
+      {/* Toast notification */}
+      {toast && <div className="toast">{toast}</div>}
+
+      {/* Episodes */}
+      <div className={layout === 'grid' ? 'episode-grid' : 'episode-list'}>
         {episodes.map((ep) => (
-          <div key={ep.slug} className="episode-card">
-            <a href={`/episodes/${ep.slug}`}>
-              {ep.thumbnail && (
-                <img src={ep.thumbnail} alt={ep.title} />
-              )}
-              <h2>{ep.title}</h2>
-            </a>
-            {ep.description && <p>{ep.description}</p>}
-            {ep.date && <small>{ep.date}</small>}
+          <div
+            key={ep.slug}
+            className={`episode-card ${watched.includes(ep.slug) ? 'watched' : ''}`}
+            onClick={() => markWatched(ep.slug)}
+          >
+            <div className="episode-card-content">
+              <a href={`/episodes/${ep.slug}`}>
+                {ep.thumbnail && <img src={ep.thumbnail} alt={ep.title} />}
+                <h2>{ep.title}</h2>
+              </a>
+              {ep.description && <p>{ep.description}</p>}
+              {ep.date && <small>{ep.date}</small>}
+            </div>
           </div>
         ))}
       </div>

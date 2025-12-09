@@ -148,20 +148,67 @@ p {
   margin-top: var(--space-lg);
 }
 
+/* ===== List view ===== */
+.episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.episode-list .episode-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.episode-list .episode-card img {
+  width: 150px;
+  border-radius: 4px;
+}
+
 /* ===== Episode card ===== */
 .episode-card {
+  position: relative; /* allow overlay positioning */
   border: 1px solid var(--color-border);
   padding: var(--space-md);
   border-radius: 8px;
   background-color: var(--color-bg);
-  transition: box-shadow 0.2s ease;
+  transition: hidden;
 }
+
 .episode-card:hover {
   box-shadow: var(--shadow-hover);
 }
+
 .episode-card img {
   width: 100%;
   border-radius: 4px;
+}
+
+/* Wrap content so only it gets blurred */
+.episode-card-content {
+  transition: filter 0.3s ease;
+}
+
+.episode-card.watched .episode-card-content {
+  filter: blur(3px);
+}
+
+.episode-card.watched:hover .episode-card-content {
+  filter: none;
+}
+
+/* Big centered checkmark overlay */
+.episode-card.watched::after {
+  content: "✔";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 64px;
+  color: rgba(0, 200, 0, 0.6); /* green transparent */
+  pointer-events: none;
 }
 
 /* ===== Layout ===== */
@@ -190,41 +237,54 @@ p {
 }
 
 /* ===== Buttons ===== */
+/* Base button style */
 .button {
-  display: inline-block;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: 4px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  border: 1px solid var(--color-border);
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  text-decoration: none;
 }
 
-/* Primary button */
+/* Hover + active states */
+.button:hover {
+  transform: translateY(-1px);
+}
+.button:active {
+  transform: translateY(0);
+}
+
+/* Primary button (theme toggle, etc.) */
 .button-primary {
-  background-color: var(--color-primary);
+  background-color: #0070f3;
   color: #fff;
 }
 .button-primary:hover {
-  background-color: #357ab8; /* slightly darker shade */
+  background-color: #0059c9;
 }
 
-/* Secondary button */
+/* Secondary button (layout toggle, etc.) */
 .button-secondary {
-  background-color: var(--color-secondary);
-  color: #000;
+  background-color: #eaeaea;
+  color: #333;
 }
 .button-secondary:hover {
-  background-color: #3ac9a5;
+  background-color: #d5d5d5;
 }
 
-/* Accent button */
-.button-accent {
-  background-color: var(--color-accent);
+/* Danger button (clear watched episodes) */
+.button-danger {
+  background-color: #e63946;
   color: #fff;
 }
-.button-accent:hover {
-  background-color: #d4881d;
+.button-danger:hover {
+  background-color: #c5303b;
 }
 
 /* ===== ChoiceBlock ===== */
@@ -317,4 +377,28 @@ p {
   border-radius: 8px;
   background-color: var(--color-bg);
 }
+
+/* ===== Toast/Confirmation Messages ===== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 200, 0, 0.9);
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  animation: fadeInOut 3s forwards;
+  z-index: 9999;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+
+
 
