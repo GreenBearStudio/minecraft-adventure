@@ -20,7 +20,6 @@ export default function Home({ episodes }: Props) {
   const { layout, setLayout } = useUI()
   const [watched, setWatched] = useState<string[]>([])
   const [hasLoaded, setHasLoaded] = useState(false)
-  const [toast, setToast] = useState<string | null>(null)
 
   // Load watched episodes from localStorage
   useEffect(() => {
@@ -50,37 +49,9 @@ export default function Home({ episodes }: Props) {
     }
   }
 
-  const clearWatched = () => {
-    if (window.confirm("Are you sure you want to clear all watched episodes?")) {
-      setWatched([])
-      localStorage.removeItem('watchedEpisodes')
-      setToast("Watched episodes cleared ✅")
-      setTimeout(() => setToast(null), 3000) // hide after 3s
-    }
-  }
-
   return (
     <Layout episodes={episodes}>
       <h1>Hunjvo&apos;s Episodes</h1>
-
-      {/* Controls */}
-      <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
-          {/* Layout toggle stays here */}
-          <button
-            className="button button-secondary"
-            onClick={() => setLayout(layout === 'grid' ? 'list' : 'grid')}
-          >
-            {layout === 'grid' ? '📋 List View' : '🔲 Grid View'}
-          </button>
-
-          {/* Link to Settings for clearing watched */}
-          <a href="/settings" className="button button-danger">
-            ⚙️ Reset Progress (Go to Settings)
-          </a>
-      </div>
-
-      {/* Toast notification */}
-      {toast && <div className="toast">{toast}</div>}
 
       {/* Episodes */}
       <div className={layout === 'grid' ? 'episode-grid' : 'episode-list'}>

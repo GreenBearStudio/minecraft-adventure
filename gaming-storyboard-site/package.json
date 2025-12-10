@@ -9,10 +9,15 @@
     "start": "next start",
     "lint": "eslint",
     "export": "next export",
+    "version:patch": "npm version patch -m 'chore: bump version to %s'",
+    "version:minor": "npm version minor -m 'chore: bump version to %s'",
+    "version:major": "npm version major -m 'chore: bump version to %s'",
     "generate:imageassets": "tsx scripts/generateImageAssetsMap.ts",
     "generate:videoassets": "tsx scripts/generateVideoAssetsMap.ts",
     "generate:assets": "npm run generate:imageassets && npm run generate:videoassets",
-    "prebuild": "npm run generate:assets"
+    "check-updates": "tsx scripts/checkUpdates.ts",
+    "prebuild": "npm run generate:assets",
+    "postbuild": "npm run check-updates"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",

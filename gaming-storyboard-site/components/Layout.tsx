@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useUI } from '../context/UIContext'   // <-- unified context
+import pkg from "../package.json";
 
 type Episode = { slug: string; title: string }
 type Props = { children: React.ReactNode; episodes: Episode[] }
@@ -24,7 +25,7 @@ export default function Layout({ children, episodes }: Props) {
         <nav className="layout-nav">
           <Link href="/">Home</Link>
           <Link href="/about">About</Link>
-          <Link href="/settings">Settings</Link>   {/* 👈 new link */}
+          <Link href="/settings">Settings</Link>
           <div style={{ marginLeft: 'auto' }}>
             <label htmlFor="episode-select">Episodes:</label>
             <select id="episode-select" onChange={handleChange} defaultValue="">
@@ -37,7 +38,9 @@ export default function Layout({ children, episodes }: Props) {
         </nav>
       </header>
       <main className="layout-main">{children}</main>
-      <footer className="layout-footer">© 2025 Hunjvo's Minecraft Storyboard Project</footer>
+      <footer className="layout-footer">
+        {pkg.name} v{pkg.version}
+      </footer>
     </div>
   )
 }
