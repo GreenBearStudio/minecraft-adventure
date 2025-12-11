@@ -38,61 +38,30 @@ html, body {
 
   /* Shadows */
   --shadow-hover: 0 2px 6px rgba(0,0,0,0.1);
-  
+
   /* Breakpoints */
-  --breakpoint-sm: 480px;   /* phones */
-  --breakpoint-md: 768px;   /* tablets */
-  --breakpoint-lg: 1024px;  /* small laptops */
-  --breakpoint-xl: 1440px;  /* desktops */
-}
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
 
-/* ===== Responsive Helpers ===== */
-@media (max-width: var(--breakpoint-sm)) {
-  .container {
-    padding: 0 var(--space-sm);
-  }
-  .layout-main {
-    padding: var(--space-md);
-  }
-}
+  /* Interactive states */
+  --color-hover-bg: #eaeaea;
+  --color-hover-text: #000000;
+  --color-active-bg: #d5d5d5;
+  --color-active-text: #000000;
 
-@media (min-width: var(--breakpoint-md)) {
-  .episode-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  }
-}
+  /* Secondary button */
+  --color-secondary-bg: #eaeaea;
+  --color-secondary-text: #333333;
+  --color-secondary-hover-bg: #d5d5d5;
+  --color-secondary-hover-text: #000000;
 
-@media (min-width: var(--breakpoint-lg)) {
-  .episode-grid {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  }
-}
-
-@media (min-width: var(--breakpoint-xl)) {
-  .episode-grid {
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  }
-}
-
-@media (max-width: var(--breakpoint-sm)) {
-  .media-item {
-    max-width: 100%;
-    flex: 1 1 100%;
-  }
-}
-
-@media (min-width: var(--breakpoint-md)) {
-  .media-item {
-    flex: 1 1 300px;
-    max-width: 400px;
-  }
-}
-
-@media (min-width: var(--breakpoint-lg)) {
-  .media-item {
-    flex: 1 1 400px;
-    max-width: 500px;
-  }
+  /* Danger button */
+  --color-danger-bg: #e63946;
+  --color-danger-text: #ffffff;
+  --color-danger-hover-bg: #c5303b;
+  --color-danger-hover-text: #ffffff;
 }
 
 /* ===== Dark mode overrides ===== */
@@ -100,6 +69,24 @@ html, body {
   --color-bg: #1a1a1a;
   --color-text: #f0f0f0;
   --color-border: #444;
+
+  /* Interactive states */
+  --color-hover-bg: #2a2a2a;
+  --color-hover-text: #ffffff;
+  --color-active-bg: #333333;
+  --color-active-text: #ffffff;
+
+  /* Secondary button */
+  --color-secondary-bg: #2a2a2a;
+  --color-secondary-text: #f0f0f0;
+  --color-secondary-hover-bg: #3a3a3a;
+  --color-secondary-hover-text: #ffffff;
+
+  /* Danger button */
+  --color-danger-bg: #b22222;
+  --color-danger-text: #ffffff;
+  --color-danger-hover-bg: #8b1a1a;
+  --color-danger-hover-text: #ffffff;
 }
 
 /* ===== Global Elements ===== */
@@ -169,16 +156,23 @@ p {
 
 /* ===== Episode card ===== */
 .episode-card {
-  position: relative; /* allow overlay positioning */
+  position: relative;
   border: 1px solid var(--color-border);
   padding: var(--space-md);
   border-radius: 8px;
   background-color: var(--color-bg);
-  transition: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .episode-card:hover {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
   box-shadow: var(--shadow-hover);
+}
+
+.episode-card:active {
+  background: var(--color-active-bg);
+  color: var(--color-active-text);
 }
 
 .episode-card img {
@@ -207,7 +201,7 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 64px;
-  color: rgba(0, 200, 0, 0.6); /* green transparent */
+  color: rgba(0, 200, 0, 0.6);
   pointer-events: none;
 }
 
@@ -238,8 +232,8 @@ p {
 
 /* General select styling */
 .layout-nav select {
-  max-width: 220px;       /* prevent it from stretching too wide */
-  width: 100%;            /* allow it to shrink on small screens */
+  max-width: 220px;
+  width: 100%;
   padding: 0.4rem 0.6rem;
   border-radius: 6px;
   border: 1px solid var(--color-border);
@@ -249,13 +243,13 @@ p {
 /* Mobile-specific adjustments */
 @media (max-width: 600px) {
   .layout-nav {
-    flex-direction: column;   /* stack nav items vertically */
+    flex-direction: column;
     align-items: flex-start;
   }
 
   .layout-nav select {
-    max-width: 100%;          /* let it fill available width */
-    width: 100%;              /* no empty space on the right */
+    max-width: 100%;
+    width: 100%;
     margin-top: 0.5rem;
   }
 
@@ -265,54 +259,70 @@ p {
 }
 
 /* ===== Buttons ===== */
-/* Base button style */
+/* Base button (shared by all) */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 100%;                 /* full width for consistency */
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  border: none;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
   transition: background-color 0.2s ease, transform 0.1s ease;
   text-decoration: none;
+  text-align: left;            /* left-align text for accordion headers */
 }
 
-/* Hover + active states */
+/* Hover + active states driven by tokens */
 .button:hover {
-  transform: translateY(-1px);
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
 }
 .button:active {
-  transform: translateY(0);
+  background: var(--color-active-bg);
+  color: var(--color-active-text);
 }
 
-/* Primary button (theme toggle, etc.) */
+/* Optional modifier for accordion headers */
+.button-accordion {
+  font-weight: bold;           /* stronger emphasis for section titles */
+}
+
+/* Specialized buttons */
 .button-primary {
-  background-color: #0070f3;
+  background-color: var(--color-primary);
   color: #fff;
 }
 .button-primary:hover {
-  background-color: #0059c9;
+  background-color: var(--color-hover-bg);
+  color: var(--color-hover-text);
+}
+.button-primary:active {
+  background-color: var(--color-active-bg);
+  color: var(--color-active-text);
 }
 
-/* Secondary button (layout toggle, etc.) */
 .button-secondary {
-  background-color: #eaeaea;
-  color: #333;
+  background-color: var(--color-secondary-bg);
+  color: var(--color-secondary-text);
 }
 .button-secondary:hover {
-  background-color: #d5d5d5;
+  background-color: var(--color-secondary-hover-bg);
+  color: var(--color-secondary-hover-text);
 }
 
-/* Danger button (clear watched episodes) */
 .button-danger {
-  background-color: #e63946;
-  color: #fff;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger-text);
 }
 .button-danger:hover {
-  background-color: #c5303b;
+  background-color: var(--color-danger-hover-bg);
+  color: var(--color-danger-hover-text);
 }
 
 /* ===== ChoiceBlock ===== */
@@ -353,7 +363,7 @@ p {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .media-item:hover {
-  transform: scale(1.05); /* smoother hover */
+  transform: scale(1.05);
   box-shadow: var(--shadow-hover);
 }
 .media-item img,
@@ -428,5 +438,16 @@ p {
   100% { opacity: 0; transform: translateY(20px); }
 }
 
+/* ===== Expanding List / Topics ===== */
+.accordion-item {
+  margin-bottom: 1rem;
+}
+
+.accordion-content {
+  padding: 0.75rem 1rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-left: 2px solid var(--color-border);
+}
 
 
