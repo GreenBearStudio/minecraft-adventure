@@ -3,6 +3,7 @@ import { assetsVideo } from "../assetsVideoMap"
 
 type Props = {
   name: string
+  title?: string
 }
 
 export default function AssetVideo({ name }: Props) {
