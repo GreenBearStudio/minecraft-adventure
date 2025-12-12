@@ -1,11 +1,11 @@
 import ChoiceBlock from '../components/ChoiceBlock'
-import StoryboardMedia from '../components/StoryboardMedia'
+import StoryboardMedia, { MediaItem } from '../components/StoryboardMedia'
 
 type Props = {
   title: string
   prompt: string
   choices: { label: string; content: React.ReactNode }[]
-  media: { type: 'image' | 'video' | 'embed'; src: string; alt?: string }[]
+  media: MediaItem[]   
 }
 
 export default function EpisodeScene({ title, prompt, choices, media }: Props) {

@@ -1,15 +1,15 @@
 // Auto-generated from uploaded_video_links.txt
 export const assetsVideo: Record<string, string> = {
-  "d63_ZombieBattle.mp4": "https://player.vimeo.com/video/1144321029",
   "d0_Intro.mp4": "https://player.vimeo.com/video/1144321967",
+  "d63_ZombieBattle.mp4": "https://player.vimeo.com/video/1144321029",
   "d71_GoingForAWalk.mp4": "https://player.vimeo.com/video/1144322067",
   "d75_WalkUpHigh.mp4": "https://player.vimeo.com/video/1144322073",
+  "d81_JibbyBat.mp4": "https://player.vimeo.com/video/1144322096",
   "d90_WalkingAround.mp4": "https://player.vimeo.com/video/1144322113",
   "d93_Fall.mp4": "https://player.vimeo.com/video/1144322140",
   "d93_StrayBattle.mp4": "https://player.vimeo.com/video/1144322162",
   "d94_WalkingOutsideZombie.mp4": "https://player.vimeo.com/video/1144322187",
   "d123_DrownedParty.mp4": "https://player.vimeo.com/video/1144322195",
-  "d81_JibbyBat.mp4": "https://player.vimeo.com/video/1144322096",
   "d128_GetOutZombie.mp4": "https://player.vimeo.com/video/1144322202",
   "d129_TwoZombieVillagers.mp4": "https://player.vimeo.com/video/1144322217",
   "d131_IntoTheDarkIntro.mp4": "https://player.vimeo.com/video/1144322235",
@@ -17,9 +17,9 @@ export const assetsVideo: Record<string, string> = {
   "d151_WalkThroughVillageBackHome.mp4": "https://player.vimeo.com/video/1144322282",
   "d152_Boating.mp4": "https://player.vimeo.com/video/1144322343",
   "d153_HappySnowVillagers.mp4": "https://player.vimeo.com/video/1144322351",
-  "d153_SnowVillageStrayAmbush.mp4": "https://player.vimeo.com/video/1144322409",
-  "d178_WalkingTaiga.mp4": "https://player.vimeo.com/video/1144322442",
   "d153_SnowVillageIntro.mp4": "https://player.vimeo.com/video/1144322369",
   "d153_SnowVillagePart2.mp4": "https://player.vimeo.com/video/1144322391",
-  "d158_TaigaVillageIntro.mp4": "https://player.vimeo.com/video/1144322419"
+  "d153_SnowVillageStrayAmbush.mp4": "https://player.vimeo.com/video/1144322409",
+  "d158_TaigaVillageIntro.mp4": "https://player.vimeo.com/video/1144322419",
+  "d178_WalkingTaiga.mp4": "https://player.vimeo.com/video/1144322442"
 };
