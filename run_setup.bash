@@ -2,7 +2,7 @@
 set -e
 
 # Check if need to create virtual environment folder
-folder_path="./.venv"
+folder_path=".venv"
 
 CREATE_VENV=""
 if [ -d "$folder_path" ]; then
