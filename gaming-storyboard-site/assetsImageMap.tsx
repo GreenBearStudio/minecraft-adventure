@@ -29,5 +29,9 @@ export const assetsImage: Record<string, string> = {
   "d175_TowerBelow.png": "https://i.ibb.co/hxpqMf8D/d175-Tower-Below.png",
   "d175_ViewExpandedVillage.png": "https://i.ibb.co/d0cbrrYC/d175-View-Expanded-Village.png",
   "d181_FortessView.png": "https://i.ibb.co/V0MSz6wV/d181-Fortess-View.png",
-  "d181_GoieHorse.png": "https://i.ibb.co/4gXRXBxY/d181-Goie-Horse.png"
+  "d181_GoieHorse.png": "https://i.ibb.co/4gXRXBxY/d181-Goie-Horse.png",
+  "d197_LavaPit.png": "https://i.ibb.co/21B9Rd8F/d197-Lava-Pit.png",
+  "d208_FortessView.png": "https://i.ibb.co/F42kLDNW/d208-Fortess-View.png",
+  "d217_FirstTowerLookBelow.png": "https://i.ibb.co/Q09mtCt/d217-First-Tower-Look-Below.png",
+  "d222_MapRoom.png": "https://i.ibb.co/TNtjW2C/d222-Map-Room.png"
 };

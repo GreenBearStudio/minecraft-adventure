@@ -21,5 +21,7 @@ export const assetsVideo: Record<string, string> = {
   "d153_SnowVillagePart2.mp4": "https://player.vimeo.com/video/1144322391",
   "d153_SnowVillageStrayAmbush.mp4": "https://player.vimeo.com/video/1144322409",
   "d158_TaigaVillageIntro.mp4": "https://player.vimeo.com/video/1144322419",
-  "d178_WalkingTaiga.mp4": "https://player.vimeo.com/video/1144322442"
+  "d178_WalkingTaiga.mp4": "https://player.vimeo.com/video/1144322442",
+  "d205_WalkInFortess.mp4": "https://player.vimeo.com/video/1146270507",
+  "d210_ZombieCreeperAmbush.mp4": "https://player.vimeo.com/video/1146289606"
 };
