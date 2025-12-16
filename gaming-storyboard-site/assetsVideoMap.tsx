@@ -18,7 +18,6 @@ export const assetsVideo: Record<string, string> = {
   "d152_Boating.mp4": "https://player.vimeo.com/video/1144322343",
   "d153_HappySnowVillagers.mp4": "https://player.vimeo.com/video/1144322351",
   "d153_SnowVillageIntro.mp4": "https://player.vimeo.com/video/1144322369",
-  "d153_SnowVillagePart2.mp4": "https://player.vimeo.com/video/1144322391",
   "d153_SnowVillageStrayAmbush.mp4": "https://player.vimeo.com/video/1144322409",
   "d158_TaigaVillageIntro.mp4": "https://player.vimeo.com/video/1144322419",
   "d178_WalkingTaiga.mp4": "https://player.vimeo.com/video/1144322442",
