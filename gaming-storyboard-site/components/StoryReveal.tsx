@@ -1,5 +1,7 @@
 import { useRef, useEffect } from "react";
+import { MDXProvider } from "@mdx-js/react";
 import { useStoryState } from "../context/StoryStateContext";
+import components from "../mdx-components";
 
 type StoryRevealProps = {
   flag: string;
@@ -11,7 +13,6 @@ export default function StoryReveal({ flag, children }: StoryRevealProps) {
   const isVisible = !!flags[flag];
   const ref = useRef<HTMLDivElement>(null);
 
-  // Optional: auto-scroll when revealed
   useEffect(() => {
     if (isVisible && ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -22,7 +23,9 @@ export default function StoryReveal({ flag, children }: StoryRevealProps) {
 
   return (
     <div ref={ref} className="story-reveal">
-      {children}
+      <MDXProvider components={components}>
+        {children}
+      </MDXProvider>
     </div>
   );
 }
