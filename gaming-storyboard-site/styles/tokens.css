@@ -1,0 +1,105 @@
+/* =========================================
+   DESIGN TOKENS
+   Centralized theme variables for light + dark
+   ========================================= */
+
+/* ===== Light Mode (default) ===== */
+:root {
+  /* Colors */
+  --color-bg: #f9f9f9;
+  --color-bg-translucent: rgba(255, 255, 255, 0.85);
+  --color-text: #333333;
+  --color-primary: #4a90e2;
+  --color-secondary: #50e3c2;
+  --color-accent: #f5a623;
+  --color-border: #ccc;
+
+  /* Status colors */
+  --color-success: rgba(0, 200, 0, 0.6);
+  --color-warning: rgba(245, 166, 35, 0.85);
+  --color-info: rgba(74, 144, 226, 0.85);
+  --color-toast-bg: rgba(0, 200, 0, 0.9);
+
+  /* Typography */
+  --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-heading: "Poppins", var(--font-base);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 48px;
+
+  /* Layout */
+  --max-width: 1200px;
+
+  /* Tile Puzzle */
+  --tile-size: 60px;
+
+  /* Shadows */
+  --shadow-hover: 0 2px 6px rgba(0,0,0,0.1);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Breakpoints */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
+  /* Interactive states */
+  --color-hover-bg: #eaeaea;
+  --color-hover-text: #000000;
+  --color-active-bg: #d5d5d5;
+  --color-active-text: #000000;
+
+  /* Secondary button */
+  --color-secondary-bg: #eaeaea;
+  --color-secondary-text: #333333;
+  --color-secondary-hover-bg: #d5d5d5;
+  --color-secondary-hover-text: #000000;
+
+  /* Danger button */
+  --color-danger-bg: #e63946;
+  --color-danger-text: #ffffff;
+  --color-danger-hover-bg: #c5303b;
+  --color-danger-hover-text: #ffffff;
+}
+
+/* ===== Dark Mode ===== */
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-bg-translucent: rgba(26, 26, 26, 0.85);
+  --color-text: #f0f0f0;
+  --color-border: #444;
+
+  /* Status colors */
+  --color-success: rgba(0, 200, 0, 0.7);
+  --color-warning: rgba(255, 200, 100, 0.85);
+  --color-info: rgba(100, 170, 255, 0.85);
+  --color-toast-bg: rgba(0, 150, 0, 0.9);
+
+  /* Interactive states */
+  --color-hover-bg: #2a2a2a;
+  --color-hover-text: #ffffff;
+  --color-active-bg: #333333;
+  --color-active-text: #ffffff;
+
+  /* Secondary button */
+  --color-secondary-bg: #2a2a2a;
+  --color-secondary-text: #f0f0f0;
+  --color-secondary-hover-bg: #3a3a3a;
+  --color-secondary-hover-text: #ffffff;
+
+  /* Danger button */
+  --color-danger-bg: #b22222;
+  --color-danger-text: #ffffff;
+  --color-danger-hover-bg: #8b1a1a;
+  --color-danger-hover-text: #ffffff;
+}
+

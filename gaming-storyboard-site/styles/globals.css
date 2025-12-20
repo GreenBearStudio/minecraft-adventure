@@ -1,3 +1,11 @@
+/* =========================================
+   GLOBALS
+   Base styles, layout, components, utilities
+   ========================================= */
+
+/* Import tokens */
+@import "./tokens.css";
+
 /* ===== Reset & Base ===== */
 html, body {
   margin: 0;
@@ -9,101 +17,6 @@ html, body {
 
 *, *::before, *::after {
   box-sizing: border-box;
-}
-
-/* ===== Design Tokens ===== */
-:root {
-  /* Colors (light mode defaults) */
-  --color-bg: #f9f9f9;
-  --color-bg-translucent: rgba(255, 255, 255, 0.85);
-  --color-text: #333333;
-  --color-primary: #4a90e2;
-  --color-secondary: #50e3c2;
-  --color-accent: #f5a623;
-  --color-border: #ccc;
-
-  /* Status colors */
-  --color-success: rgba(0, 200, 0, 0.6);
-  --color-warning: rgba(245, 166, 35, 0.85);
-  --color-info: rgba(74, 144, 226, 0.85);
-  --color-toast-bg: rgba(0, 200, 0, 0.9);
-
-  /* Typography */
-  --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  --font-heading: "Poppins", var(--font-base);
-
-  /* Spacing */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 48px;
-
-  /* Layout */
-  --max-width: 1200px;
-  
-  /* Tile Puzzle */
-  --tile-size: 40px;
-
-  /* Shadows */
-  --shadow-hover: 0 2px 6px rgba(0,0,0,0.1);
-
-  /* Breakpoints */
-  --breakpoint-sm: 480px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1440px;
-
-  /* Interactive states */
-  --color-hover-bg: #eaeaea;
-  --color-hover-text: #000000;
-  --color-active-bg: #d5d5d5;
-  --color-active-text: #000000;
-
-  /* Secondary button */
-  --color-secondary-bg: #eaeaea;
-  --color-secondary-text: #333333;
-  --color-secondary-hover-bg: #d5d5d5;
-  --color-secondary-hover-text: #000000;
-
-  /* Danger button */
-  --color-danger-bg: #e63946;
-  --color-danger-text: #ffffff;
-  --color-danger-hover-bg: #c5303b;
-  --color-danger-hover-text: #ffffff;
-}
-
-/* ===== Dark mode overrides ===== */
-[data-theme="dark"] {
-  --color-bg: #1a1a1a;
-  --color-bg-translucent: rgba(26, 26, 26, 0.85);
-  --color-text: #f0f0f0;
-  --color-border: #444;
-
-  /* Status colors */
-  --color-success: rgba(0, 200, 0, 0.7);
-  --color-warning: rgba(255, 200, 100, 0.85);
-  --color-info: rgba(100, 170, 255, 0.85);
-  --color-toast-bg: rgba(0, 150, 0, 0.9);
-
-  /* Interactive states */
-  --color-hover-bg: #2a2a2a;
-  --color-hover-text: #ffffff;
-  --color-active-bg: #333333;
-  --color-active-text: #ffffff;
-
-  /* Secondary button */
-  --color-secondary-bg: #2a2a2a;
-  --color-secondary-text: #f0f0f0;
-  --color-secondary-hover-bg: #3a3a3a;
-  --color-secondary-hover-text: #ffffff;
-
-  /* Danger button */
-  --color-danger-bg: #b22222;
-  --color-danger-text: #ffffff;
-  --color-danger-hover-bg: #8b1a1a;
-  --color-danger-hover-text: #ffffff;
 }
 
 /* ===== Global Elements ===== */
@@ -144,7 +57,7 @@ p {
   gap: var(--space-md);
 }
 
-/* ===== Puzzle content ==== */
+/* ===== Puzzle content ===== */
 .puzzle-solved-content {
   opacity: 0;
   transform: translateY(10px);
@@ -152,7 +65,7 @@ p {
   margin-top: 1rem;
   padding: 1rem;
   border: 2px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background: var(--color-bg-translucent);
 }
 
@@ -187,7 +100,7 @@ p {
 
 .episode-list .episode-card img {
   width: 150px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 /* ===== Episode card ===== */
@@ -195,7 +108,7 @@ p {
   position: relative;
   border: 1px solid var(--color-border);
   padding: var(--space-md);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background-color: var(--color-bg);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -213,10 +126,9 @@ p {
 
 .episode-card img {
   width: 100%;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
-/* Wrap content so only it gets blurred */
 .episode-card-content {
   transition: filter 0.3s ease;
 }
@@ -229,7 +141,6 @@ p {
   filter: none;
 }
 
-/* Big centered checkmark overlay */
 .episode-card.watched::after {
   content: "✔";
   position: absolute;
@@ -266,21 +177,19 @@ p {
   text-align: center;
 }
 
-/* General select styling */
 .layout-nav select {
   max-width: 220px;
   width: 100%;
   padding: 0.4rem 0.6rem;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   font-size: 0.95rem;
 }
 
-/* Mobile-specific adjustments */
+/* ===== Mobile adjustments ===== */
 @media (max-width: 600px) {
   :root {
-    /* Smaller Tiles on mobile */
-    --tile-size: 24px;
+    --tile-size: 42px;
   }
 
   .layout-nav {
@@ -300,14 +209,13 @@ p {
 }
 
 /* ===== Buttons ===== */
-/* Base button (shared by all) */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;                 
+  width: 100%;
   padding: 0.6rem 1.2rem;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -316,42 +224,33 @@ p {
   color: var(--color-text);
   transition: background-color 0.2s ease, transform 0.1s ease;
   text-decoration: none;
-  text-align: left;            
+  text-align: left;
 }
 
-/* Hover + active states driven by tokens */
 .button:hover {
   background: var(--color-hover-bg);
   color: var(--color-hover-text);
 }
+
 .button:active {
   background: var(--color-active-bg);
   color: var(--color-active-text);
 }
 
-/* Optional modifier for accordion headers */
-.button-accordion {
-  font-weight: bold;           
-}
-
-/* Specialized buttons */
 .button-primary {
   background-color: var(--color-primary);
   color: #fff;
 }
+
 .button-primary:hover {
-  background-color: var(--color-hover-bg);
-  color: var(--color-hover-text);
-}
-.button-primary:active {
-  background-color: var(--color-active-bg);
-  color: var(--color-active-text);
+  filter: brightness(1.1);
 }
 
 .button-secondary {
   background-color: var(--color-secondary-bg);
   color: var(--color-secondary-text);
 }
+
 .button-secondary:hover {
   background-color: var(--color-secondary-hover-bg);
   color: var(--color-secondary-hover-text);
@@ -361,6 +260,7 @@ p {
   background-color: var(--color-danger-bg);
   color: var(--color-danger-text);
 }
+
 .button-danger:hover {
   background-color: var(--color-danger-hover-bg);
   color: var(--color-danger-hover-text);
@@ -371,7 +271,7 @@ p {
   margin: var(--space-md) 0;
   padding: var(--space-md);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background-color: var(--color-bg);
 }
 
@@ -397,16 +297,18 @@ p {
 .media-item {
   flex: 1 1 300px;
   max-width: 500px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .media-item:hover {
   transform: scale(1.05);
   box-shadow: var(--shadow-hover);
 }
+
 .media-item img,
 .media-item video {
   width: 100%;
@@ -421,6 +323,7 @@ p {
   width: 100%;
   aspect-ratio: 16 / 9;
 }
+
 .video-embed iframe {
   position: absolute;
   top: 0;
@@ -428,7 +331,7 @@ p {
   width: 100%;
   height: 100%;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   display: block;
 }
 
@@ -438,6 +341,7 @@ p {
   width: 100%;
   aspect-ratio: 16 / 9;
 }
+
 .embed-block iframe {
   position: absolute;
   top: 0;
@@ -445,7 +349,7 @@ p {
   width: 100%;
   height: 100%;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 /* ===== Episode Scene ===== */
@@ -453,11 +357,11 @@ p {
   margin: var(--space-lg) 0;
   padding: var(--space-md);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background-color: var(--color-bg);
 }
 
-/* ===== Toast/Confirmation Messages ===== */
+/* ===== Toast ===== */
 .toast {
   position: fixed;
   bottom: 20px;
@@ -465,7 +369,7 @@ p {
   background: var(--color-toast-bg);
   color: #fff;
   padding: 0.8rem 1.2rem;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: 0.95rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   animation: fadeInOut 3s forwards;
@@ -479,7 +383,7 @@ p {
   100% { opacity: 0; transform: translateY(20px); }
 }
 
-/* ===== Expanding List / Topics ===== */
+/* ===== Accordion ===== */
 .accordion-item {
   margin-bottom: 1rem;
 }
@@ -492,31 +396,25 @@ p {
 }
 
 /* ===== Utility Blocks ===== */
+.success-block,
+.warning-block,
+.info-block {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-translucent);
+  margin-top: var(--space-md);
+}
+
 .success-block {
   border: 2px solid var(--color-success);
-  background: var(--color-bg-translucent);
-  padding: var(--space-md);
-  border-radius: 6px;
-  color: var(--color-text);
-  margin-top: var(--space-md);
 }
 
 .warning-block {
   border: 2px solid var(--color-warning);
-  background: var(--color-bg-translucent);
-  padding: var(--space-md);
-  border-radius: 6px;
-  color: var(--color-text);
-  margin-top: var(--space-md);
 }
 
 .info-block {
   border: 2px solid var(--color-info);
-  background: var(--color-bg-translucent);
-  padding: var(--space-md);
-  border-radius: 6px;
-  color: var(--color-text);
-  margin-top: var(--space-md);
 }
 
 /* ===== Progress Bar ===== */
@@ -534,7 +432,7 @@ p {
   width: 100%;
   height: 10px;
   background: var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
@@ -550,5 +448,4 @@ p {
   flex-direction: column;
   align-items: center;
 }
-
 
