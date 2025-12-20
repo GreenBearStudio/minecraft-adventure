@@ -1,0 +1,143 @@
+---
+title: "Episode 10 – Portal of Purple Whispers"
+description: "Before comming back home, Hunjvo discovers a portal near the snowy village!"
+thumbnail: "https://i.ibb.co/KjNjNqNm/d157-After-Stray-Battle.png"
+---
+<StoryNamespaceProvider namespace="episode10">
+
+## Another Snowy Walk.. at Night?!
+
+Hunjvo left the snowy village with a full belly and a happy heart. The cheerful sounds of the villagers faded behind him as he skipped along the snowy path, humming to himself.
+
+Night crept in. Again.
+
+## The Legion of Running, Screaming, and yes Fighting
+
+“HUNJVO! Why do you forget to look at the sky and see that the sun is setting and night is coming!” the Narrator yelled, exasperated.
+
+But Hunjvo, undisturbed, kept skipping, thinking about Smally’s delicious cookie.
+“Oh what a delicious cookie it wa—”
+
+WHOOSH.  
+An arrow of slowness zipped past his head.
+
+WHOOSH.  
+Another.
+
+THWACK.  
+The third hit him squarely in the butt — the exact same spot the Stray had shot long ago in the basement of the Fortress of Fluffy Socks.
+
+Hunjvo froze. Then panicked.
+“AHHHH! NOT AGAIN!”
+
+He ran in circles, arms flailing, legs wobbling from the slowness effect. Strays emerged from the darkness, their icy bows glinting under the moon.
+
+## The Portal
+
+But then — out of the corner of his eye — he saw it.
+
+<AssetImage name="d156_PortalStrayBattle.png" />
+
+An abandoned portal.
+Tall. Majestic. Purple energy swirling faintly between cracked obsidian blocks. It whispered of ancient knowledge, forgotten realms, treasures beyond the overworld.
+
+Another arrow whizzed past.
+
+“NOW IS NOT THE TIME TO DREAM OF WORLDS BEYOND OUR OWN!” shrieked both Hunjvo and the Narrator in perfect, terrified harmony.
+
+The Strays closed in. Hunjvo gripped his sword.
+He fought.
+
+## The Battle that was not Recorded!.. WHY!? oh why..
+
+And what a battle it was.
+Arrows flew. Bones clattered. Hunjvo dodged, rolled, yelped, and swung wildly. The Strays were too many, too fast, too icy — and the unseen Narrator was so overwhelmed by the chaos that he forgot to take a recording.
+
+“WHY, NARRATOR, WHY?!” Hunjvo yelled mid‑battle.
+Oh right… that’s me, the Narrator muttered.
+
+But when the sun finally rose, the Strays burned away or fled into the shadows. Hunjvo stood victorious, panting, bruised, and rubbing his poor arrow‑targeted butt.
+
+## Aftermath, Calmness and a Locked Chest
+
+Then he noticed it.
+
+<AssetImage name="d157_AfterStrayBattle.png" />
+
+Near the portal, half-buried in snow, was a treasure box.
+Old. Mysterious. Locked with strange markings.
+
+Hunjvo stepped closer, heart pounding.
+
+<PuzzleChoiceBlock
+  prompt="A mysterious chest hums with energy. What do you do?"
+  choices={[
+    {
+      label: "Attempt to open the chest",
+      content: (
+        <TileFlipPuzzle
+          difficulty="medium"
+          theme="snow"
+          unlockStages={[
+            {
+              moves: 5,
+              content: <p>The puzzle glows faintly.</p>
+            },
+            {
+              moves: 15,
+              content: (
+                <ChoiceBlock
+                  prompt="The lock crumbles open.. do you wish to continue?"
+                  choices={[
+                    { 
+                      label: "Smash the lock! OPEN it!", 
+                      setFlag: "openedChest",
+                      content: <>With a heavy swing of his sword, Hunjvo smashes open the chest!</> },
+                    { 
+                      label: "Keep solving it..", 
+                      content: <>You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. </> 
+                    }
+                  ]}
+                />
+              )
+            },
+            {
+              solved: true,
+              setFlag: "openedChest",
+              content: <p>The chest opens!</p>
+            }
+          ]}
+        />
+      )
+    },
+    {
+      label: "Walk away",
+      content: (
+        <p>
+          Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
+        </p>
+      )
+    }
+  ]}
+/>
+
+<StoryReveal flag="episode10.openedChest">
+  <div className="success-block">
+    <h4>The lock opens!</h4>
+    <p>The chest contains:</p>
+    <ul>
+      <li>fire charge</li>
+      <li>gold pickaxe (unbreaking 3)</li>
+      <li>obsidian (2)</li>
+      <li>flint and steel</li>
+      <li>iron nugget (2)</li>
+    </ul>
+    <AssetImage name="d157_PortalChest.png" />
+  </div>
+</StoryReveal>
+
+The portal hummed softly behind him, as if waiting.
+
+And the adventure — whatever it was — had only just begun.
+
+</StoryNamespaceProvider>

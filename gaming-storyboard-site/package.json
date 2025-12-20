@@ -1,7 +1,7 @@
 {
   "name": "Hunjvo Minecraft Stories",
   "appId": "com.amunishk.hunjvo",
-  "version": "0.4.0",
+  "version": "0.5.5",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,7 +16,7 @@
     "generate:videoassets": "tsx scripts/generateVideoAssetsMap.ts",
     "generate:assets": "npm run generate:imageassets && npm run generate:videoassets",
     "check-updates": "tsx scripts/checkUpdates.ts",
-    "prebuild": "npm run generate:assets",
+    "prebuild": "npm run generate:assets && npm run version:patch",
     "postbuild": "npm run check-updates"
   },
   "dependencies": {
@@ -25,9 +25,9 @@
     "@capacitor/core": "^7.4.4",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
-    "@next/mdx": "^16.0.10",
+    "@next/mdx": "^16.1.0",
     "gray-matter": "^4.0.3",
-    "next": "^16.0.10",
+    "next": "^16.1.0",
     "next-mdx-remote": "^5.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
@@ -39,7 +39,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.10",
+    "eslint-config-next": "16.1.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"

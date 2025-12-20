@@ -7,6 +7,7 @@ import Layout from '../components/Layout'
 import { useUI } from '../context/UIContext'
 import { useState, useEffect } from 'react'
 import { useToast } from '../context/ToastContext'
+import { useStoryState } from "@/context/StoryStateContext";
 
 type Episode = { slug: string; title: string }
 
@@ -14,18 +15,35 @@ export default function Settings({ episodes }: { episodes: Episode[] }) {
   const { theme, setTheme, layout, setLayout } = useUI()
   const { showToast } = useToast()
   const [watched, setWatched] = useState<string[]>([])
+  const { unlockAll, setUnlockAll } = useUI()
+  const { resetAll } = useStoryState();
 
   useEffect(() => {
     const saved = localStorage.getItem('watchedEpisodes')
     if (saved) setWatched(JSON.parse(saved))
   }, [])
 
-  const clearWatched = () => {
-    if (window.confirm("Are you sure you want to clear all watched episodes?")) {
+  // Button reset episodes
+  const resetEpisodes = () => {
+    if (window.confirm("Are you sure you want to reset all progress?")) {
       setWatched([])
+      resetAll()
       localStorage.removeItem('watchedEpisodes')
-      showToast("Watched episodes cleared ✅")
+      showToast("Reset all episodes ✅")
     }
+  }
+  
+  // Button unlock episodes
+  const unlockEpisodes = () => {
+    const newValue = !unlockAll
+    if (newValue) {
+      if (window.confirm("Are you sure you want to unlock all episodes?")) {
+        setUnlockAll(true)
+        showToast("All episodes unlocked! 🔓🗝️")
+      }
+    } else {
+      setUnlockAll(false)
+    } 
   }
 
   return (
@@ -38,8 +56,11 @@ export default function Settings({ episodes }: { episodes: Episode[] }) {
         <button className="button button-secondary" onClick={() => setLayout(layout === 'grid' ? 'list' : 'grid')}>
           {layout === 'grid' ? '📋 List View' : '🔲 Grid View'}
         </button>
-        <button className="button button-danger" onClick={clearWatched}>
-          🗑 Clear Watched Episodes
+        <button className="button button-danger" onClick={resetEpisodes}>
+          🗑 Reset All Episodes
+        </button>
+        <button className="button button-secondary" onClick={unlockEpisodes}> 
+          {unlockAll ? "🔓 Lock All Episodes" : "🗝️ Unlock All Episodes"} 
         </button>
       </div>
     </Layout>

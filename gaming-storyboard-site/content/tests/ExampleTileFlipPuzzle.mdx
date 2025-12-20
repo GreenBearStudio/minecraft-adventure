@@ -1,0 +1,25 @@
+# Episode 7: The Snow Village Gate
+
+The hero encounters a frozen puzzle that blocks the path:
+
+<TileFlipPuzzle 
+  difficulty="medium" 
+  theme="snow"
+  unlockStages={[
+    {
+      moves: 5,
+      content: <p>You’ve made 5 moves — the puzzle glows faintly.</p>
+    },
+    {
+      solved: true,
+      content: (
+        <div>
+          <h4>The gate opens!</h4>
+          <p>You step into the snowy village, greeted by lanterns and warm fires.</p>
+          <AssetImage name="d153_SnowVillage.png" />
+        </div>
+      )
+    }
+  ]}
+/>
+

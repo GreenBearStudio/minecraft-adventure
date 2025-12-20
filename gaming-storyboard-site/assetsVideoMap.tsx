@@ -21,6 +21,16 @@ export const assetsVideo: Record<string, string> = {
   "d153_SnowVillageStrayAmbush.mp4": "https://player.vimeo.com/video/1144322409",
   "d158_TaigaVillageIntro.mp4": "https://player.vimeo.com/video/1144322419",
   "d178_WalkingTaiga.mp4": "https://player.vimeo.com/video/1144322442",
+  "d181_HorseRide.mp4": "https://player.vimeo.com/video/1147931134",
   "d205_WalkInFortess.mp4": "https://player.vimeo.com/video/1146270507",
-  "d210_ZombieCreeperAmbush.mp4": "https://player.vimeo.com/video/1146289606"
+  "d210_ZombieCreeperAmbush.mp4": "https://player.vimeo.com/video/1146289606",
+  "d210_ZombieHighPeakAttack.mp4": "https://player.vimeo.com/video/1147930826",
+  "d231_SmallGardenFortress.mp4": "https://player.vimeo.com/video/1147930997",
+  "d232_HorseAttackHide.mp4": "https://player.vimeo.com/video/1147930916",
+  "d233_FarVillageWithPortal.mp4": "https://player.vimeo.com/video/1147931095",
+  "d237_TwoSheepTwoPigsOneHorse.mp4": "https://player.vimeo.com/video/1147930719",
+  "d239_VillagerKidBorn.mp4": "https://player.vimeo.com/video/1147930877",
+  "d240_SwimNearVillage.mp4": "https://player.vimeo.com/video/1147931064",
+  "d243_GardenPart2.mp4": "https://player.vimeo.com/video/1147931120",
+  "d246_TwoZombieAttackFortress.mp4": "https://player.vimeo.com/video/1147930767"
 };

@@ -15,11 +15,18 @@ html, body {
 :root {
   /* Colors (light mode defaults) */
   --color-bg: #f9f9f9;
+  --color-bg-translucent: rgba(255, 255, 255, 0.85);
   --color-text: #333333;
   --color-primary: #4a90e2;
   --color-secondary: #50e3c2;
   --color-accent: #f5a623;
   --color-border: #ccc;
+
+  /* Status colors */
+  --color-success: rgba(0, 200, 0, 0.6);
+  --color-warning: rgba(245, 166, 35, 0.85);
+  --color-info: rgba(74, 144, 226, 0.85);
+  --color-toast-bg: rgba(0, 200, 0, 0.9);
 
   /* Typography */
   --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -35,6 +42,9 @@ html, body {
 
   /* Layout */
   --max-width: 1200px;
+  
+  /* Tile Puzzle */
+  --tile-size: 40px;
 
   /* Shadows */
   --shadow-hover: 0 2px 6px rgba(0,0,0,0.1);
@@ -67,8 +77,15 @@ html, body {
 /* ===== Dark mode overrides ===== */
 [data-theme="dark"] {
   --color-bg: #1a1a1a;
+  --color-bg-translucent: rgba(26, 26, 26, 0.85);
   --color-text: #f0f0f0;
   --color-border: #444;
+
+  /* Status colors */
+  --color-success: rgba(0, 200, 0, 0.7);
+  --color-warning: rgba(255, 200, 100, 0.85);
+  --color-info: rgba(100, 170, 255, 0.85);
+  --color-toast-bg: rgba(0, 150, 0, 0.9);
 
   /* Interactive states */
   --color-hover-bg: #2a2a2a;
@@ -125,6 +142,25 @@ p {
 .grid {
   display: grid;
   gap: var(--space-md);
+}
+
+/* ===== Puzzle content ==== */
+.puzzle-solved-content {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg-translucent);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===== Episode grid ===== */
@@ -201,7 +237,7 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 64px;
-  color: rgba(0, 200, 0, 0.6);
+  color: var(--color-success);
   pointer-events: none;
 }
 
@@ -242,6 +278,11 @@ p {
 
 /* Mobile-specific adjustments */
 @media (max-width: 600px) {
+  :root {
+    /* Smaller Tiles on mobile */
+    --tile-size: 24px;
+  }
+
   .layout-nav {
     flex-direction: column;
     align-items: flex-start;
@@ -264,7 +305,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;                 /* full width for consistency */
+  width: 100%;                 
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
   font-size: 1rem;
@@ -275,7 +316,7 @@ p {
   color: var(--color-text);
   transition: background-color 0.2s ease, transform 0.1s ease;
   text-decoration: none;
-  text-align: left;            /* left-align text for accordion headers */
+  text-align: left;            
 }
 
 /* Hover + active states driven by tokens */
@@ -290,7 +331,7 @@ p {
 
 /* Optional modifier for accordion headers */
 .button-accordion {
-  font-weight: bold;           /* stronger emphasis for section titles */
+  font-weight: bold;           
 }
 
 /* Specialized buttons */
@@ -421,7 +462,7 @@ p {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: rgba(0, 200, 0, 0.9);
+  background: var(--color-toast-bg);
   color: #fff;
   padding: 0.8rem 1.2rem;
   border-radius: 6px;
@@ -448,6 +489,66 @@ p {
   background: var(--color-bg);
   color: var(--color-text);
   border-left: 2px solid var(--color-border);
+}
+
+/* ===== Utility Blocks ===== */
+.success-block {
+  border: 2px solid var(--color-success);
+  background: var(--color-bg-translucent);
+  padding: var(--space-md);
+  border-radius: 6px;
+  color: var(--color-text);
+  margin-top: var(--space-md);
+}
+
+.warning-block {
+  border: 2px solid var(--color-warning);
+  background: var(--color-bg-translucent);
+  padding: var(--space-md);
+  border-radius: 6px;
+  color: var(--color-text);
+  margin-top: var(--space-md);
+}
+
+.info-block {
+  border: 2px solid var(--color-info);
+  background: var(--color-bg-translucent);
+  padding: var(--space-md);
+  border-radius: 6px;
+  color: var(--color-text);
+  margin-top: var(--space-md);
+}
+
+/* ===== Progress Bar ===== */
+.progress-container {
+  margin: 1rem 0 2rem;
+}
+
+.progress-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: var(--color-text);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+/* ===== Puzzles ===== */
+.tile-flip-puzzle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
