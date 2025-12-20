@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import { useStoryState } from "../context/StoryStateContext";
-import components from "../mdx-components";
+import { mdxComponents } from "../mdx-components";
 
 type StoryRevealProps = {
   flag: string;
@@ -23,7 +23,7 @@ export default function StoryReveal({ flag, children }: StoryRevealProps) {
 
   return (
     <div ref={ref} className="story-reveal">
-      <MDXProvider components={components}>
+      <MDXProvider components={mdxComponents}>
         {children}
       </MDXProvider>
     </div>

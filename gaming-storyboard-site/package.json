@@ -1,7 +1,7 @@
 {
   "name": "Hunjvo Minecraft Stories",
   "appId": "com.amunishk.hunjvo",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "private": true,
   "scripts": {
     "dev": "next dev",

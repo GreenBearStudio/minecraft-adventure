@@ -8,10 +8,10 @@ import AssetImage from "./components/AssetImage"
 import AssetVideo from "./components/AssetVideo"
 import TileFlipPuzzle from './components/TileFlipPuzzle'
 import PuzzleChoiceBlock from './components/PuzzleChoiceBlock'
-import StoryReveal from './components/StoryReveal'
 import { StoryNamespaceProvider } from "./context/StoryNamespaceContext"
 
-const components = {
+// Components safe for MDXProvider
+export const mdxComponents = {
   ImageGallery,
   VideoEmbed,
   StoryFlowEmbed,
@@ -22,9 +22,9 @@ const components = {
   AssetVideo,
   TileFlipPuzzle,
   PuzzleChoiceBlock,
-  StoryReveal,
   StoryNamespaceProvider,
 };
 
-export default components;
+// Components that should NOT be used inside StoryReveal
+export { default as StoryReveal } from './components/StoryReveal';
 

@@ -3,8 +3,7 @@
 
 ## Videos
 
-- small files (< 200 MB), use `sync_videos.py` script, doesn't need tuspy.
-- large files (> 200 MB, especially > 500 MB), use `sync_large_videos.py` script, uses tuspy.
+- streaming uploader for files use `sync_videos.py` script, uses tuspy.
 
 ## ffplay viewing
 

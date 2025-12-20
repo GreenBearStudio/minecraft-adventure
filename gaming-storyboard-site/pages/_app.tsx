@@ -10,7 +10,12 @@ import { StoryNamespaceProvider } from "../context/StoryNamespaceContext"
 import '../styles/globals.css'
 
 // MDX components
-import components from "../mdx-components";
+import { mdxComponents, StoryReveal } from "../mdx-components";
+
+const components = {
+  ...mdxComponents,
+  StoryReveal, 
+};
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (

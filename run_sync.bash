@@ -26,8 +26,8 @@ echo "DONE images"
 # Run the video (TUS protocol) sync
 (
   cd "files${LP}videos${LP}"
-  #python3 sync_large_videos.py
+  python3 sync_videos.py
 )
-#echo "DONE videos"
+echo "DONE videos"
 
 echo "DONE"
