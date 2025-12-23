@@ -1,7 +1,7 @@
 {
-  "name": "Hunjvo Minecraft Stories",
+  "name": "Hunjvo: The Puzzle Chronicles",
   "appId": "com.amunishk.hunjvo",
-  "version": "0.5.8",
+  "version": "0.5.53",
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -1,8 +1,8 @@
 #!/bin/bash
-# android.sh — Builds and converts to android build for upload to Google Play and Amazon Store
-set -e
+# Builds and converts to android build for upload to Google Play and Amazon Store
+set -euo pipefail
 
-# Step 0: Migrate capacitor.config.ts → capacitor.config.json if needed
+# Step 1: Migrate capacitor.config.ts → capacitor.config.json if needed
 CAPACITOR_CONFIG_TS="capacitor.config.ts"
 if [ -f ${CAPACITOR_CONFIG_TS} ]; then
   echo "Found ${CAPACITOR_CONFIG_TS}, migrating to capacitor.config.json..."
@@ -11,7 +11,7 @@ if [ -f ${CAPACITOR_CONFIG_TS} ]; then
     import('./capacitor.config.ts').then(m => {
       const config = m.default || m.config || m;
       fs.writeFileSync('capacitor.config.json', JSON.stringify(config, null, 2));
-      console.log('✅ Migration complete: capacitor.config.json created');
+      console.log('✔ Migration complete: capacitor.config.json created');
     }).catch(err => {
       console.error('❌ Migration failed:', err);
       process.exit(1);
@@ -20,10 +20,6 @@ if [ -f ${CAPACITOR_CONFIG_TS} ]; then
   echo "Removing ${CAPACITOR_CONFIG_TS}"
   rm -f ${CAPACITOR_CONFIG_TS}
 fi
-
-# Step 1: Build Next.js static site
-echo "Building Next.js site..."
-npm run build
 
 # Step 2: Initialize Capacitor (safe to rerun)
 APP_NAME=$(node -p "require('./package.json').name")
@@ -53,29 +49,61 @@ export KEY_PASSWORD=$KEYSTORE_PASSWORD # same as keystore
 if [ -n "$ANDROID_HOME" ]; then
   echo "Ensuring local.properties points to SDK..."
   echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-  echo "✅ local.properties created with sdk.dir=$ANDROID_HOME"
+  echo "✔ local.properties created with sdk.dir=$ANDROID_HOME"
 else
   echo "⚠️ ANDROID_HOME is not set. Please export ANDROID_HOME to your SDK path."
   exit 1
 fi
 
-# Step 4: Sync Capacitor with Android project
+# Step 4a: Sync Capacitor with Android project
 echo "Syncing Capacitor..."
 npx cap sync android
 
+# Step 4b: Sync Android version with package.json
+echo "Syncing Android version with package.json..."
+
+VERSION=$(node -p "require('./package.json').version")
+
+if [[ -z "$VERSION" ]]; then
+  echo "❌ Could not read version from package.json"
+  exit 1
+fi
+
+echo "Version from package.json: $VERSION"
+
+# Convert version (e.g. 1.4.0) → versionCode (e.g. 10400)
+VERSION_CODE=$(echo "$VERSION" | awk -F. '{ printf("%d%d%d", $1, $2, $3) }' | sed 's/^0*//')
+
+echo "Computed versionCode: $VERSION_CODE"
+
+GRADLE_FILE="android/app/build.gradle"
+
+echo "Updating $GRADLE_FILE..."
+
+# Update versionName
+sed -i.bak -E "s/versionName \".*\"/versionName \"$VERSION\"/" "$GRADLE_FILE"
+
+# Update versionCode
+sed -i.bak -E "s/versionCode [0-9]+/versionCode $VERSION_CODE/" "$GRADLE_FILE"
+
+echo "✔ Android version synced:"
+echo "  versionName = $VERSION"
+echo "  versionCode = $VERSION_CODE"
+
 # Step 5: Navigate to Android project
-cd android
+(
+  cd android
 
-# Step 6: Build APK (Amazon Appstore)
-echo "Building APK..."
-./gradlew assembleRelease
+  # Step 5a: Build APK (Amazon Appstore)
+  echo "Building APK..."
+  ./gradlew assembleRelease
 
-# Step 7: Build AAB (Google Play)
-echo "Building AAB..."
-./gradlew bundleRelease
+  # Step 5b: Build AAB (Google Play)
+  echo "Building AAB..."
+  ./gradlew bundleRelease
+)
 
-# Step 8: Collect outputs
-cd ..
+# Step 6: Collect outputs
 mkdir -p release-builds
 cp android/app/build/outputs/apk/release/app-release.apk release-builds/
 cp android/app/build/outputs/bundle/release/app-release.aab release-builds/

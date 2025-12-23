@@ -1,5 +1,13 @@
 {
   "appId": "com.amunishk.hunjvo",
-  "appName": "Hunjvo Minecraft Stories",
-  "webDir": "out"
+  "appName": "Hunjvo: The Puzzle Chronicles",
+  "webDir": "out",
+  "server": {
+    "allowNavigation": [
+      "*"
+    ]
+  },
+  "android": {
+    "allowMixedContent": true
+  }
 }

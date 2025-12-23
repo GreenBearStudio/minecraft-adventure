@@ -26,7 +26,7 @@ function runCheckUpdates(): void {
     // Run npm-check-updates without updating package.json
     const output: string = execSync("npx npm-check-updates", { encoding: "utf-8" });
 
-    console.log("📦 Dependency Update Report:\n");
+    console.log("Dependency Update Report:\n");
     console.log(output);
 
     // Extract recommended versions from output lines containing "→"

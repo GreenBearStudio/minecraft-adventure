@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
   output: 'export',
+  trailingSlash: true,
 }
 
 export default withMDX(nextConfig)
