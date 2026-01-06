@@ -23,18 +23,9 @@ export default function Layout({ children, episodes }: Props) {
     <div className="layout">
       <header className="layout-header">
         <nav className="layout-nav">
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/settings">Settings</Link>
-          <div style={{ marginLeft: 'auto' }}>
-            <label htmlFor="episode-select">Episodes:</label>
-            <select id="episode-select" onChange={handleChange} defaultValue="">
-              <option value="" disabled>Select an episode</option>
-              {episodes.map(ep => (
-                <option key={ep.slug} value={ep.slug}>{ep.title}</option>
-              ))}
-            </select>
-          </div>
+          <Link href="/" className="button">Home</Link>
+          <Link href="/about" className="button">About</Link>
+          <Link href="/settings" className="button">Settings</Link>
         </nav>
       </header>
       <main className="layout-main">{children}</main>
