@@ -9,6 +9,7 @@ import AssetVideo from "./components/AssetVideo"
 import TileFlipPuzzle from './components/TileFlipPuzzle'
 import PuzzleChoiceBlock from './components/PuzzleChoiceBlock'
 import { StoryNamespaceProvider } from "./context/StoryNamespaceContext"
+import SideStoryLink from './components/SideStoryLink'
 
 // Components safe for MDXProvider
 export const mdxComponents = {
@@ -23,6 +24,7 @@ export const mdxComponents = {
   TileFlipPuzzle,
   PuzzleChoiceBlock,
   StoryNamespaceProvider,
+  SideStoryLink,
 };
 
 // Components that should NOT be used inside StoryReveal

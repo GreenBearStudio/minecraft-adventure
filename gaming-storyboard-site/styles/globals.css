@@ -449,3 +449,121 @@ p {
   align-items: center;
 }
 
+/* =========================================
+   Side Story Link System
+   ========================================= */
+
+/* ===== Trigger Button ===== */
+.side-story-link {
+  display: block;
+  padding: var(--space-md);
+  margin: var(--space-md) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-translucent);
+  color: var(--color-primary);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.side-story-link:hover {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
+  box-shadow: var(--shadow-hover);
+}
+
+.side-story-link:active {
+  background: var(--color-active-bg);
+  color: var(--color-active-text);
+}
+
+/* ===== Outer Block Wrapper ===== */
+.side-story-block {
+  margin: var(--space-md) 0;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.side-story-block:hover {
+  background: var(--color-hover-bg);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ===== Expanded Content ===== */
+.side-story-content {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-bg-translucent);
+  border-radius: var(--radius-md);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ===== Thumbnail (inside expanded content) ===== */
+.side-story-thumbnail {
+  width: 100%;
+  max-width: 300px;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  display: block;
+  box-shadow: var(--shadow-hover);
+}
+
+/* ===== Description (inside expanded content) ===== */
+.side-story-description {
+  margin: var(--space-sm) 0 var(--space-md);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* ===== Button Internal Layout ===== */
+.side-story-button-content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  width: 100%;
+  text-align: left;
+}
+
+/* Small icon thumbnail (inside button) */
+.side-story-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-hover);
+}
+
+/* Title + preview text (inside button) */
+.side-story-button-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.side-story-title {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.side-story-button-preview {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, var(--color-text));
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.3;
+}
+

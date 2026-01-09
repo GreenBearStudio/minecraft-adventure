@@ -32,5 +32,8 @@ export const assetsVideo: Record<string, string> = {
   "d239_VillagerKidBorn.mp4": "https://player.vimeo.com/video/1147930877",
   "d240_SwimNearVillage.mp4": "https://player.vimeo.com/video/1147931064",
   "d243_GardenPart2.mp4": "https://player.vimeo.com/video/1147931120",
-  "d246_TwoZombieAttackFortress.mp4": "https://player.vimeo.com/video/1147930767"
+  "d246_TwoZombieAttackFortress.mp4": "https://player.vimeo.com/video/1147930767",
+  "d282_DeepDark.mp4": "https://player.vimeo.com/video/1152686277",
+  "d283_DeepDark.mp4": "https://player.vimeo.com/video/1152686609",
+  "d284_DeepDark.mp4": "https://player.vimeo.com/video/1152686225"
 };

@@ -6,20 +6,37 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import Layout from '../../components/Layout'
+import SideStoryLink from '../../components/SideStoryLink'
 
 type EpisodeMeta = { slug: string; title: string }
 type Frontmatter = { title: string; description: string; thumbnail: string }
 type Props = { source: MDXRemoteSerializeResult; frontmatter: Frontmatter; episodes: EpisodeMeta[] }
 
-export default function EpisodePage({ source, frontmatter, episodes }: Props) {
+export default function EpisodePage({
+  source,
+  frontmatter,
+  episodes,
+  sideEpisodes,
+}: Props) {
   return (
     <Layout episodes={episodes}>
       <h1>{frontmatter.title}</h1>
       <p>{frontmatter.description}</p>
-      <MDXRemote {...source} />
+
+      <MDXRemote
+        {...source}
+        components={{
+          SideStoryLink: ({ slug }) => {
+            const story = sideEpisodes.find(s => s.slug === slug)
+            if (!story) return <p>Missing side story: {slug}</p>
+            return <SideStoryLink story={story} />
+          },
+        }}
+      />
     </Layout>
   )
 }
+
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const episodesDir = path.join(process.cwd(), 'content', 'episodes')
@@ -30,13 +47,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slug = params?.slug as string
+
+  // MAIN EPISODE
   const episodesDir = path.join(process.cwd(), 'content', 'episodes')
   const fullPath = path.join(episodesDir, `${slug}.mdx`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const { content, data } = matter(fileContents)
   const mdxSource = await serialize(content)
 
-  // discover all episodes for navigation
+  // MAIN EPISODE LIST (for navigation)
   const files = fs.readdirSync(episodesDir)
   const episodes: EpisodeMeta[] = files.map((file) => {
     const s = file.replace(/\.mdx$/, '')
@@ -44,6 +63,28 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     const { data } = matter(f)
     return { slug: s, title: data.title || s }
   })
+
+  // LOAD ALL SIDE EPISODES
+  const sideDir = path.join(process.cwd(), 'content', 'side-episodes')
+  const sideFiles = fs.readdirSync(sideDir)
+
+  const sideEpisodes = await Promise.all(
+  sideFiles.filter(f => f.endsWith('.mdx')).map(async (file) => {
+    const sideSlug = file.replace(/\.mdx$/, '')
+    const fullSidePath = path.join(sideDir, file)
+    const sideContents = fs.readFileSync(fullSidePath, 'utf8')
+    const { content: sideContent, data: sideData } = matter(sideContents)
+    const sideMdx = await serialize(sideContent)
+
+    return {
+      slug: sideSlug,
+      title: sideData.title || sideSlug,
+      description: sideData.description || "",
+      thumbnail: sideData.thumbnail || "/images/default.png",
+      content: sideMdx,
+    }
+  })
+  )
 
   return {
     props: {
@@ -54,6 +95,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         thumbnail: data.thumbnail || '/images/default.png',
       },
       episodes,
+      sideEpisodes, 
     },
   }
 }
