@@ -7,10 +7,17 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import Layout from '../../components/Layout'
 import SideStoryLink from '../../components/SideStoryLink'
+import type { SideStory } from "../../components/SideStoryLink";
 
 type EpisodeMeta = { slug: string; title: string }
 type Frontmatter = { title: string; description: string; thumbnail: string }
-type Props = { source: MDXRemoteSerializeResult; frontmatter: Frontmatter; episodes: EpisodeMeta[] }
+type Props = {
+  source: MDXRemoteSerializeResult;
+  frontmatter: Frontmatter;
+  episodes: EpisodeMeta[];
+  sideEpisodes: SideStory[];   
+};
+
 
 export default function EpisodePage({
   source,

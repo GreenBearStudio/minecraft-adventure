@@ -1,19 +1,25 @@
 import { useState } from "react";
-import { MDXRemote } from "next-mdx-remote";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 
-export default function SideStoryLink({ story }) {
+// Define the shape of a side story
+export type SideStory = {
+  slug: string;
+  title: string;
+  description?: string;
+  thumbnail?: string;
+  content: MDXRemoteSerializeResult;
+};
+
+export default function SideStoryLink({ story }: { story: SideStory }) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="side-story-block">
-
-      {/* Button with embedded preview */}
       <button
         className="side-story-link"
         onClick={() => setOpen(!open)}
       >
         <div className="side-story-button-content">
-          {/* Small icon thumbnail */}
           {story.thumbnail && (
             <img
               src={story.thumbnail}
@@ -25,7 +31,6 @@ export default function SideStoryLink({ story }) {
           <div className="side-story-button-text">
             <span className="side-story-title">{story.title}</span>
 
-            {/* Inline preview (description only) */}
             {story.description && (
               <p className="side-story-button-preview">
                 {story.description}
@@ -35,7 +40,6 @@ export default function SideStoryLink({ story }) {
         </div>
       </button>
 
-      {/* Expanded content */}
       {open && (
         <div className="side-story-content">
           <MDXRemote {...story.content} />
