@@ -63,7 +63,6 @@ jobs:
         working-directory: ./gaming-storyboard-site
         run: |
           npm run build
-          npm run export
 
       # Rust toolchain + caching
       - name: Install Rust toolchain
