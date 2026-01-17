@@ -32,8 +32,5 @@ bash ./scripts-bash/diagnostics.bash
 echo "Starting fresh build..."
 npm run build
 
-# Post build testing
-#bash ./scripts-bash/simulate_navigation.bash 
-
 echo "✅ Build pipeline complete — ready for Android build!"
 

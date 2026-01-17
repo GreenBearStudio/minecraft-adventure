@@ -104,11 +104,12 @@ echo "  versionCode = $VERSION_CODE"
 )
 
 # Step 6: Collect outputs
-mkdir -p release-builds
-cp android/app/build/outputs/apk/release/app-release.apk release-builds/
-cp android/app/build/outputs/bundle/release/app-release.aab release-builds/
+ANDROID_SUBFOLDER="android"
+mkdir -p "release-builds/"
+mkdir -p "release-builds/${ANDROID_SUBFOLDER}/"
+cp android/app/build/outputs/apk/release/app-release.apk "release-builds/${ANDROID_SUBFOLDER}/"
+cp android/app/build/outputs/bundle/release/app-release.aab "release-builds/${ANDROID_SUBFOLDER}/"
 
 echo "✅ Signed builds ready:"
-echo "APK: release-builds/app-release.apk"
-echo "AAB: release-builds/app-release.aab"
+ls -lh "release-builds/${ANDROID_SUBFOLDER}"
 

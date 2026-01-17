@@ -56,10 +56,23 @@ basically does two things
 `bash run_build_android.bash`
 
 this uses Capacitor, WebViewer wrapper for Next.js to Android/Java builds. A
-custom local server build that modifies the `MainActivity.java`, allowing server security
-for app.
+custom local Java server build that modifies the `MainActivity.java`, allowing server security
+for app, allowing dynamic function as Next.js.
 
 ### Testing (Android device via USB)
 
 `bash scripts-bash\test_android.bash`
+
+## Next.js to Tauri/Rust Desktop build
+
+*NOTE* first make sure to build the Next.js project `bash run_build_core.bash`
+
+`bash run_build_desktoprust.bash`
+
+this uses Tauri(2.X) a custom Rust, WebViewer wrapper for Next.js to Windows/Mac/Linux builds.
+A custom local Rust server build `server.rs`, allowing same dynamic function as Next.js.
+
+### Testing (PC device)
+
+`bash scripts-bash\test_desktoprust.bash`
 
