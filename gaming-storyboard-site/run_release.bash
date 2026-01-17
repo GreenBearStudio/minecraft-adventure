@@ -39,7 +39,7 @@ echo "Updating $CHANGELOG_FILE..."
 mv "${CHANGELOG_FILE}.tmp" "$CHANGELOG_FILE"
 
 # Commit + tag + push
-git add "$CHANGELOG_FILE" "$RELEASE_NOTES_FILE"
+git add -f "$CHANGELOG_FILE" "$RELEASE_NOTES_FILE"
 git commit -m "chore(release): $VERSION"
 git tag -a "v$VERSION" -m "Release $VERSION"
 git push
