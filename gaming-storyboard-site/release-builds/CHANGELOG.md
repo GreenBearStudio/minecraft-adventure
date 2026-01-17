@@ -1,3 +1,9 @@
+## 0.5.67 - 2026-01-16
+# [](https://github.com/GreenBearStudio/minecraft-adventure/compare/v0.5.66...v) (2026-01-17)
+
+
+
+
 ## 0.5.66 - 2026-01-16
 # [](https://github.com/GreenBearStudio/minecraft-adventure/compare/v0.5.65...v) (2026-01-17)
 
