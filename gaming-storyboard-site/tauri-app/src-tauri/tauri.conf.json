@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "identifier": "com.hunjvo.desktop",
+  "productName": "Hunjvo Desktop",
+  "version": "0.5.63",
+
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "frontendDist": "../../out",
+    "devUrl": "http://127.0.0.1:8080/index.html"
+  },
+
+  "app": {
+    "windows": [
+      {
+        "title": "Hunjvo Desktop",
+        "width": 1280,
+        "height": 800,
+        "resizable": true
+      }
+    ]
+  },
+
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "appimage", "rpm", "msi", "dmg"],
+    "icon": ["icons/icon.png"]
+  }
+}
+

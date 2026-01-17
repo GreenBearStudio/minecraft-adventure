@@ -1,0 +1,44 @@
+# Rust build artifacts
+target/
+Cargo.lock
+
+# Tauri bundler output
+src-tauri/target/
+src-tauri/bundle/
+src-tauri/gen/
+
+# Tauri 2.x build cache
+src-tauri/.tauri-build
+src-tauri/.cargo-tauri
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node (if package.json exists but unused)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.iml
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Icon generation artifacts (if you generate multiple sizes)
+src-tauri/icons/*.bak
+src-tauri/icons/*.old
+
+# Backup files created by sed or editors
+*.bak
+*.orig
+*.backup
+
