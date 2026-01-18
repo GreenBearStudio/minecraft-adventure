@@ -30,7 +30,9 @@ bash ./scripts-bash/diagnostics.bash
 
 # Run a fresh build
 echo "Starting fresh build..."
+npm run generate:assets && npm run version:patch
 npm run build
+npm run check-updates
 
 echo "✅ Build pipeline complete — ready for Android build!"
 

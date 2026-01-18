@@ -15,9 +15,7 @@
     "generate:imageassets": "tsx scripts/generateImageAssetsMap.ts",
     "generate:videoassets": "tsx scripts/generateVideoAssetsMap.ts",
     "generate:assets": "npm run generate:imageassets && npm run generate:videoassets",
-    "check-updates": "tsx scripts/checkUpdates.ts",
-    "prebuild": "npm run generate:assets && npm run version:patch",
-    "postbuild": "npm run check-updates"
+    "check-updates": "tsx scripts/checkUpdates.ts"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.5",
