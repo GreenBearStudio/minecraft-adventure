@@ -1,0 +1,259 @@
+---
+title: "Episode 17 – The Village of the Second Portal"
+description: "Another village?.. Another portal? What could these structures mean!?"
+thumbnail: "https://i.ibb.co/Rx9YRyB/d233-Far-Village-Portal.png"
+---
+<StoryNamespaceProvider namespace="episode17">
+
+## Hunger for Adventure
+
+After many peaceful hours staring at the maps in his Map Room, Hunjvo felt something stirring inside him. A restlessness. A spark. A hunger for adventure that no bread, beet, or potato could satisfy.
+
+“I will explore the Overworld inch by inch and uncover the mysteries!” he declared proudly.
+
+The narrator whispered, “Just be careful, Hunjvo…”  
+But Hunjvo was already gone.
+
+He leapt onto Burr, his loyal horse, and galloped off toward the horizon.
+Did he pack food?
+Did he bring boots?
+A shovel?
+Anything?
+
+…Probably not.
+But off he went anyway.
+
+## The Journey to the Water’s Edge
+
+Hunjvo rode until the land ended in a wide, shimmering lake. He tied Burr to a fence post, built a tiny sleeping hut for him (complete with hay and a torch), and gave him a pat on the nose.
+
+“Stay here, Burr. I’ll be back!”
+
+Then Hunjvo hopped into a boat and paddled across the water.
+Days passed.
+Nights passed.
+He hummed, he drifted, he occasionally panicked when he thought he saw a drowned zombie, but eventually—
+
+## A New Village… and Another Portal
+
+A village appeared on the shore.
+And beside it…
+Another portal.
+
+<AssetImage name="d233_FarVillagePortal.png" />
+
+Cracked.
+Ancient.
+Purple energy flickering faintly.
+
+<PuzzleChoiceBlock
+  prompt="A mysterious chest hums with energy. What do you do?"
+  choices={[
+    {
+      label: "Attempt to open the chest",
+      content: (
+        <TileFlipPuzzle
+          difficulty="medium"
+          theme="default"
+          unlockStages={[
+            {
+              moves: 5,
+              content: <p>The puzzle glows faintly.</p>
+            },
+            {
+              moves: 15,
+              content: (
+                <ChoiceBlock
+                  prompt="The lock crumbles open.. do you wish to continue?"
+                  choices={[
+                    { 
+                      label: "Smash the lock! OPEN it!", 
+                      setFlag: "openedChest",
+                      content: <>With a heavy swing of his sword, Hunjvo smashes open the chest!</> },
+                    { 
+                      label: "Keep solving it..", 
+                      content: <>You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. </> 
+                    }
+                  ]}
+                />
+              )
+            },
+            {
+              solved: true,
+              setFlag: "openedChest",
+              content: <p>The chest opens!</p>
+            }
+          ]}
+        />
+      )
+    },
+    {
+      label: "Walk away",
+      content: (
+        <p>
+          Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
+        </p>
+      )
+    }
+  ]}
+/>
+
+<StoryReveal flag="episode17.openedChest">
+  <div className="success-block">
+    <h4>The lock opens!</h4>
+    <p>The chest contains:</p>
+    <ul>
+      <li>lodestone (2)</li>
+      <li>gold shovel (unbreaking 2)</li>
+      <li>gold shovel (fortune 2)</li>
+      <li>gold sword (knockback 1)</li>
+      <li>gold boots (projectile protection 2)</li>
+      <li>gold helmet (fire protection 2)</li>
+      <li>obsidian</li>
+      <li>flint (3)</li>
+      <li>iron nugget (17)</li>
+    </ul>
+    <AssetImage name="d233_FarVillagePortalChest.png" />
+  </div>
+</StoryReveal>
+
+“What are these things?” Hunjvo wondered.
+He needed answers.
+He needed knowledge.
+He needed… a librarian.
+
+<AssetVideo name="d233_FarVillageWithPortal.mp4" />
+
+## Hunjvo the Thiefy Visitor
+
+Hunjvo sprinted into the village like a whirlwind.
+Doors flew open.
+Chests rattled.
+Villagers screamed.
+Some ran away, convinced an Illager raid had begun.
+
+The iron golem?
+Fast asleep in a flower patch.
+Snoring.
+Completely useless.
+
+Seeing the golem snoozing peacefully, the villagers hesitated.
+If this strange intruder were dangerous, surely the golem would wake up… right?
+
+Hunjvo, meanwhile, was already picking locks on chests.
+
+<AssetImage name="d233_VillageChest1.png" />
+
+<AssetImage name="d233_VillageChest2.png" />
+
+“Ooo, what’s this?”
+
+“Shiny!”
+
+“Potato!”
+
+“More potato!”
+
+"Apples!"
+
+“A blacksmith—let’s see what he has!”
+
+<PuzzleChoiceBlock
+  prompt="A strong chest has a lock on it. What do you do?"
+  choices={[
+    {
+      label: "Attempt to open the chest",
+      content: (
+        <TileFlipPuzzle
+          difficulty="easy"
+          theme="default"
+          unlockStages={[
+            {
+              moves: 8,
+              content: (
+                <ChoiceBlock
+                  prompt="The lock crumbles open.. do you wish to continue?"
+                  choices={[
+                    { 
+                      label: "Smash the lock! OPEN it!", 
+                      setFlag: "openedChest2",
+                      content: <>With a heavy swing of his sword, Hunjvo smashes open the chest!</> },
+                    { 
+                      label: "Keep solving it..", 
+                      content: <>You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. </> 
+                    }
+                  ]}
+                />
+              )
+            },
+            {
+              solved: true,
+              setFlag: "openedChest2",
+              content: <p>The chest opens!</p>
+            }
+          ]}
+        />
+      )
+    },
+    {
+      label: "Walk away",
+      content: (
+        <p>
+          Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
+        </p>
+      )
+    }
+  ]}
+/>
+
+<StoryReveal flag="episode17.openedChest2">
+  <div className="success-block">
+    <h4>The lock opens!</h4>
+    <p>The chest contains:</p>
+    <ul>
+      <li>iron spear</li>
+      <li>bread</li>
+      <li>obsidian (2)</li>
+      <li>gold (4)</li>
+      <li>iron (3)</li>
+    </ul>
+    <AssetImage name="d233_BlacksmithChest.png" />
+  </div>
+</StoryReveal>
+
+## Making Friends (Sort Of)
+
+Eventually, Hunjvo realized he should probably try to make friends instead of causing panic.
+So he handed out bread.
+And beets.
+Lots of beets.
+
+The villagers stared at the red roots in confusion.
+Hunjvo took a big bite to demonstrate.
+They cautiously tried them too.
+
+“Ooo, nice!” said one villager.
+“I prefer bread,” said Farmer Bibbie.
+
+But they smiled.
+They accepted him.
+They even waved goodbye when he left.
+
+## Home Again
+
+After many days, Hunjvo returned to the Fortress of Fluffy Socks.
+He tied up his boat, reunited with Burr, and climbed the snowy mountain path home.
+
+<AssetImage name="d234_SideViewFortress.png" />
+
+He was tired.
+He was hungry.
+He was excited.
+
+Because the world was big.
+The portals were mysterious.
+And Hunjvo knew—deep in his heart—that many more adventures were waiting for him just beyond the next hill.
+
+And he was ready.
+
+</StoryNamespaceProvider>

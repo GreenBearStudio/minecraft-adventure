@@ -35,5 +35,14 @@ export const assetsVideo: Record<string, string> = {
   "d246_TwoZombieAttackFortress.mp4": "https://player.vimeo.com/video/1147930767",
   "d282_DeepDark.mp4": "https://player.vimeo.com/video/1152686277",
   "d283_DeepDark.mp4": "https://player.vimeo.com/video/1152686609",
-  "d284_DeepDark.mp4": "https://player.vimeo.com/video/1152686225"
+  "d284_DeepDark.mp4": "https://player.vimeo.com/video/1152686225",
+  "d298_DeepDarkAmbush.mp4": "https://player.vimeo.com/video/1157994262",
+  "d316_DeepDark.mp4": "https://player.vimeo.com/video/1157994306",
+  "d326_KidnappedVillagers.mp4": "https://player.vimeo.com/video/1157994172",
+  "d353_NetherIntro.mp4": "https://player.vimeo.com/video/1157994016",
+  "d358_FortressPortal.mp4": "https://player.vimeo.com/video/1157994284",
+  "d367_FortressUnderAttack.mp4": "https://player.vimeo.com/video/1157993902",
+  "d367_FortressUnderAttack2.mp4": "https://player.vimeo.com/video/1157993990",
+  "d367_FortressUnderAttack3.mp4": "https://player.vimeo.com/video/1157993948",
+  "NoorWorldIntro.mp4": "https://player.vimeo.com/video/1157994054"
 };
