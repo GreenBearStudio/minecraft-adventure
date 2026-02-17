@@ -44,5 +44,12 @@ export const assetsVideo: Record<string, string> = {
   "d367_FortressUnderAttack.mp4": "https://player.vimeo.com/video/1157993902",
   "d367_FortressUnderAttack2.mp4": "https://player.vimeo.com/video/1157993990",
   "d367_FortressUnderAttack3.mp4": "https://player.vimeo.com/video/1157993948",
+  "d435_MiningSilverfish.mp4": "https://player.vimeo.com/video/1165417542",
+  "d435_MiningSilverfish2.mp4": "https://player.vimeo.com/video/1165418033",
+  "d496_NewVillagePaleGarden.mp4": "https://player.vimeo.com/video/1165417562",
+  "d501_Adventuring.mp4": "https://player.vimeo.com/video/1165417946",
+  "NoorBattle.mp4": "https://player.vimeo.com/video/1165417258",
+  "NoorBattleWithEfe.mp4": "https://player.vimeo.com/video/1165417899",
+  "NoorStoryTime.mp4": "https://player.vimeo.com/video/1165417725",
   "NoorWorldIntro.mp4": "https://player.vimeo.com/video/1157994054"
 };
