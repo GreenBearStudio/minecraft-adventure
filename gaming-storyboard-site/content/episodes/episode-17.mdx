@@ -50,39 +50,29 @@ Purple energy flickering faintly.
   <PuzzleChoice label="Attempt to open the chest">
         <TileFlipPuzzle
           difficulty="medium"
-          theme="default"
-          unlockStages={[
-            {
-              moves: 5,
-              content: <p>The puzzle glows faintly.</p>
-            },
-            {
-              moves: 15,
-              content: (
-                <ChoiceBlock
-                  prompt="The lock crumbles open.. do you wish to continue?"
-                  choices={[
-                    { 
-                      label: "Smash the lock! OPEN it!", 
-                      setFlag: "openedChest",
-                      content: <>With a heavy swing of his sword, Hunjvo smashes open the chest!</> },
-                    { 
-                      label: "Keep solving it..", 
-                      content: <>You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. </> 
-                    }
-                  ]}
-                />
-              )
-            },
-            {
-              solved: true,
-              setFlag: "openedChest",
-              content: <p>The chest opens!</p>
-            }
-          ]}
-        />
+          theme="default">
+        <UnlockStage moves="5">
+           <p>The puzzle glows faintly.</p>
+        </UnlockStage>
+        
+        <UnlockStage moves="15">
+                <ChoiceBlock prompt="The lock crumbles open.. do you wish to continue?">
+                  <Choice label="Smash the lock! OPEN it!" setFlag="openedChest">
+                      With a heavy swing of his sword, Hunjvo smashes open the chest!
+                  </Choice>
+                   
+                  <Choice label="Keep solving it.."> 
+                      You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. 
+                  </Choice>
+                </ChoiceBlock>
+        </UnlockStage>
+            
+        <UnlockStage solved setFlag="openedChest">
+              <p>The chest opens!</p>
+        </UnlockStage>
+        </TileFlipPuzzle>
     </PuzzleChoice>
-    
+      
     <PuzzleChoice label="Walk away">
         <p>
           Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
@@ -154,33 +144,23 @@ Hunjvo, meanwhile, was already picking locks on chests.
   <PuzzleChoice label="Attempt to open the chest">
         <TileFlipPuzzle
           difficulty="easy"
-          theme="default"
-          unlockStages={[
-            {
-              moves: 8,
-              content: (
-                <ChoiceBlock
-                  prompt="The lock crumbles open.. do you wish to continue?"
-                  choices={[
-                    { 
-                      label: "Smash the lock! OPEN it!", 
-                      setFlag: "openedChest2",
-                      content: <>With a heavy swing of his sword, Hunjvo smashes open the chest!</> },
-                    { 
-                      label: "Keep solving it..", 
-                      content: <>You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. </> 
-                    }
-                  ]}
-                />
-              )
-            },
-            {
-              solved: true,
-              setFlag: "openedChest2",
-              content: <p>The chest opens!</p>
-            }
-          ]}
-        />
+          theme="default">
+        <UnlockStage moves="8">
+              <ChoiceBlock prompt="The lock crumbles open.. do you wish to continue?">
+                  <Choice label="Smash the lock! OPEN it!" setFlag="openedChest2">
+                      With a heavy swing of his sword, Hunjvo smashes open the chest!
+                  </Choice>
+                  
+                  <Choice label="Keep solving it.."> 
+                      You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. 
+                  </Choice>
+              </ChoiceBlock>
+        </UnlockStage>
+        
+        <UnlockStage solved setFlag="openedChest2">
+              <p>The chest opens!</p>
+        </UnlockStage>
+        </TileFlipPuzzle>
     </PuzzleChoice>
     
     <PuzzleChoice label="Walk away">

@@ -8,6 +8,7 @@ import EpisodeScene from './components/EpisodeScene'
 import AssetImage from "./components/AssetImage"
 import AssetVideo from "./components/AssetVideo"
 import TileFlipPuzzle from './components/TileFlipPuzzle'
+import UnlockStage from "./components/UnlockStage";
 import PuzzleChoiceBlock from './components/PuzzleChoiceBlock'
 import PuzzleChoice from './components/PuzzleChoice'
 import { StoryNamespaceProvider } from "./context/StoryNamespaceContext"
@@ -26,12 +27,15 @@ export const mdxComponents = {
   // Puzzle system
   PuzzleChoiceBlock,
   PuzzleChoice,
+  
+  // Tile Puzzle
+  TileFlipPuzzle,
+  UnlockStage,
 
   StoryboardMedia,
   EpisodeScene,
   AssetImage,
   AssetVideo,
-  TileFlipPuzzle,
   StoryNamespaceProvider,
   SideStoryLink,
 };
