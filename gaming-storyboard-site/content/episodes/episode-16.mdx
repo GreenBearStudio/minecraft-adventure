@@ -24,13 +24,15 @@ And so began the Greenhouse Project of Fluffy Socks.
 Hunjvo needed seeds. And vegetables. And dirt. And more vegetables.
 So he did what any responsible, totally‑not‑a‑thief hero would do:
   
-<ChoiceBlock
-  prompt="What do you pack for the.. not-uhmm-thief-adventure?"
-  choices={[
-    { label: "A donkey and a.. boat?", content: <>Uhmmm.. <AssetImage name="d231_DonkeyBoat.png" /> </> },
-    { label: "Just GO! Run!", content: <>Go, go, go! Hunjvo! </> }
-  ]}
-/>
+<ChoiceBlock prompt="What do you pack for the.. not-uhmm-thief-adventure?">
+  <Choice label="A donkey and a.. boat?">
+    Uhmmm.. <AssetImage name="d231_DonkeyBoat.png" /> 
+  </Choice>
+  
+  <Choice label="Just GO! Run!">
+    Go, go, go! Hunjvo! 
+  </Choice>
+</ChoiceBlock>
 
 He sprinted into the nearby village at dawn and jumped straight into the villagers’ gardens.
 

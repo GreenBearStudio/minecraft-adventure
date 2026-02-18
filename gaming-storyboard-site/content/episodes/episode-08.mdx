@@ -34,13 +34,15 @@ But the lake was small. Too small. Within minutes, he had reached the opposite s
 
 <AssetImage name="d152_VillageViewWaterBoat.png" />
 
-<ChoiceBlock
-  prompt="“Well… that was quick,” he muttered, hauling the chest back onto land. “Guess I’ll need a bigger adventure.” What do you do?"
-  choices={[
-    { label: "Let Hunjvo explore the waters some more.", content: <>A peaceful lake, yet the sun was setting, perhaps it's time to go back to the safety of the fortress? <AssetVideo name="d152_Boating.mp4" /> </> },
-    { label: "Time to dock, and head back home..", content: <>Hunjvo a little sad, but happy to see his Fluffy Socks, was eager and ready. He rowed back to shore, “Adventure and exploration,” he thought, thinking of what was beyond the village and his home. </> }
-  ]}
-/>
+<ChoiceBlock prompt="“Well… that was quick,” he muttered, hauling the chest back onto land. “Guess I’ll need a bigger adventure.” What do you do?">
+  <Choice label="Let Hunjvo explore the waters some more."> 
+    A peaceful lake, yet the sun was setting, perhaps it's time to go back to the safety of the fortress? <AssetVideo name="d152_Boating.mp4" /> 
+  </Choice>
+  
+  <Choice label="Time to dock, and head back home..">
+    Hunjvo a little sad, but happy to see his Fluffy Socks, was eager and ready. He rowed back to shore, “Adventure and exploration,” he thought, thinking of what was beyond the village and his home. 
+  </Choice>
+</ChoiceBlock>
 
 ## Map of the Beyond.. uh maybe not a bad idea
 

@@ -8,14 +8,19 @@ thumbnail: "https://i.ibb.co/yFLNYTtH/d75-Sunset.png"
 
 High above the snowy cliffs, Hunjvo balanced on the scaffolding of his ever-growing fortress. He wiped the frost from his brow and muttered cheerfully, “Just continuing to build the foundation of the great halls of the eastern wall. Nothing to worry about, well… just don’t look down, haha. A long way to go but great view, I like the waterfall :)”
 
-<ChoiceBlock
-  prompt="Do you look down, careful, Hunjvo is afraid of heights!"
-  choices={[
-    { label: "Look down", content: <>You crazy, Hunjvo is afraid of heights! Hunjvo says "Ahh, don't want to fall down that". Quickly Hunjvo turns away and runs towards the center of the stone floor. His heart pounding, scared..</> },
-    { label: "Close your eyes", content: <>This is not a good idea, how can Hunjvo see, what if he falls off the edge, quick choose another option!</> },
-    { label: "Keep walking on the stone floor", content: <>Hunjvo skips along the grand stone floor, he is working on, feeling happy and hungry? Hunjvo go eat!</> }
-  ]}
-/>
+<ChoiceBlock prompt="Do you look down, careful, Hunjvo is afraid of heights!">
+  <Choice label="Look down"> 
+    You crazy, Hunjvo is afraid of heights! Hunjvo says "Ahh, don't want to fall down that". Quickly Hunjvo turns away and runs towards the center of the stone floor. His heart pounding, scared..
+  </Choice>
+  
+  <Choice label="Close your eyes"> 
+    This is not a good idea, how can Hunjvo see, what if he falls off the edge, quick choose another option!
+  </Choice>
+  
+  <Choice label="Keep walking on the stone floor"> 
+    Hunjvo skips along the grand stone floor, he is working on, feeling happy and hungry? Hunjvo go eat!
+  </Choice>
+</ChoiceBlock>
 
 <AssetVideo name="d75_WalkUpHigh.mp4" />
 
@@ -33,13 +38,15 @@ He ducked into a cave, torchlight flickering against the stone. His breath caugh
 
 Hunjvo smiled. “First cave with friendly bat :) I will call him Jibby. He will be my friend.”
 
-<ChoiceBlock
-  prompt="Do you pet the bat?"
-  choices={[
-    { label: "He's friendly, pet him", content: <>Hunjvo tries to get close and pet the bat. The bat squeaking, flies away..</> },
-    { label: "Observe at a distance", content: <>The flapping motion of the bat, calms down the still beating scared heart of Hunjvo. The bat sqeaks "I'm a girl by the way.." Hunjvo confused thinking "Why am I hearing voices?"</> }
-  ]}
-/>
+<ChoiceBlock prompt="Do you pet the bat?">
+  <Choice label="He's friendly, pet him">
+    Hunjvo tries to get close and pet the bat. The bat squeaking, flies away..
+  </Choice> 
+  
+  <Choice label="Observe at a distance">
+    The flapping motion of the bat, calms down the still beating scared heart of Hunjvo. The bat sqeaks "I'm a girl by the way.." Hunjvo confused thinking "Why am I hearing voices?"
+  </Choice>
+</ChoiceBlock>
 
 The bat squeaked, circling his torchlight like a tiny guardian. Hunjvo’s mind raced with plans. “Looking around, thinking will add this to my tunnel network later. Will come back for Jibby later, and build a palace for the bats. Need to find more bats… Jibby we will see each other again :)”
 

@@ -30,13 +30,15 @@ Higher.
 Higher.
 Higher.
 
-<ChoiceBlock
-  prompt="“Do you look down?"
-  choices={[
-    { label: "LOOK", content: <>Wow, that is tall. Is that a cloud? <AssetImage name="d217_FirstTowerLookBelow.png" /> </> },
-    { label: "Uh.. maybe?", content: <>Hunjvo a bit scared, just peeked over the edge.. "Ahhh. Just keep building and don't look down!.. don't look down again.. ahhhh" <AssetImage name="d217_FirstTowerLookBelow.png" /> </> }
-  ]}
-/>
+<ChoiceBlock prompt="“Do you look down?">
+  <Choice label="LOOK">
+    Wow, that is tall. Is that a cloud? <AssetImage name="d217_FirstTowerLookBelow.png" /> 
+  </Choice>
+  
+  <Choice label="Uh.. maybe?">
+    Hunjvo a bit scared, just peeked over the edge.. "Ahhh. Just keep building and don't look down!.. don't look down again.. ahhhh" <AssetImage name="d217_FirstTowerLookBelow.png" /> 
+  </Choice>
+</ChoiceBlock>
 
 “Hunjvo this is becoming too scary even for me!” the narrator yelped.
 But Hunjvo kept stacking stone bricks like a man possessed.
@@ -57,16 +59,18 @@ Strays rattled their icy bones.
 
 Too late.
 
-<ChoiceBlock
-  prompt="What do you do?"
-  choices={[
-    { label: "Stand your ground. Fight!", content: <>Ready, let's climb here a bit. <AssetVideo name="d210_ZombieCreeperAmbush.mp4" /> </> },
-    { label: "Run!", content: <>Hunjvo scratches his head, unsure what to do. He blinks, but it was too late, the zombies came. <AssetVideo name="d210_ZombieHighPeakAttack.mp4" />  
+<ChoiceBlock prompt="What do you do?">
+  <Choice label="Stand your ground. Fight!">
+    Ready, let's climb here a bit. <AssetVideo name="d210_ZombieCreeperAmbush.mp4" /> 
+  </Choice>
+  
+  <Choice label="Run!"> 
+    Hunjvo scratches his head, unsure what to do. He blinks, but it was too late, the zombies came. <AssetVideo name="d210_ZombieHighPeakAttack.mp4" />  
     Hunjvo slipped.
     He fell.
-    He hit the ground with a thud that echoed through the valley. </> }
-  ]}
-/>
+    He hit the ground with a thud that echoed through the valley. 
+  </Choice>
+</ChoiceBlock>
 
 “OH WOW that was close again!” cried the narrator.
 

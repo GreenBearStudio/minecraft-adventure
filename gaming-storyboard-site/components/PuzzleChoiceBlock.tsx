@@ -1,20 +1,48 @@
-import { useState } from 'react';
-import { useStoryState } from '../context/StoryStateContext';
+// components/PuzzleChoiceBlock.tsx
+import {
+  useState,
+  ReactElement,
+  ReactNode,
+  isValidElement,
+} from "react";
+import { useStoryState } from "../context/StoryStateContext";
 
-type PuzzleChoice = {
+type PuzzleChoiceData = {
   label: string;
-  content: React.ReactNode;
-  setFlag?: string; 
+  content: ReactElement;
+  setFlag?: string;
 };
 
-type PuzzleChoiceBlockProps = {
+type Props = {
   prompt: string;
-  choices: PuzzleChoice[];
+  children: ReactNode;
 };
 
-export default function PuzzleChoiceBlock({ prompt, choices }: PuzzleChoiceBlockProps) {
+// Type predicate: ensures child is a ReactElement WITH props
+function isPuzzleChoiceElement(
+  child: ReactNode
+): child is ReactElement<{ [key: string]: any }> {
+  return isValidElement(child) && typeof child.props === "object";
+}
+
+export default function PuzzleChoiceBlock({ prompt, children }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
-  const { setFlag } = useStoryState(); 
+  const { setFlag } = useStoryState();
+
+  // Normalize children into an array
+  const childArray = Array.isArray(children) ? children : [children];
+
+  // STEP 1 — Narrow to valid React elements with props
+  const validChildren = childArray.filter(isPuzzleChoiceElement);
+
+  // STEP 2 — Extract puzzle choices
+  const choices: PuzzleChoiceData[] = validChildren
+    .filter((child) => child.props["data-puzzlechoice"] !== undefined)
+    .map((child) => ({
+      label: child.props["data-label"],
+      setFlag: child.props["data-setflag"] || undefined,
+      content: child.props.children,
+    }));
 
   return (
     <div className="choice-block">
@@ -26,9 +54,13 @@ export default function PuzzleChoiceBlock({ prompt, choices }: PuzzleChoiceBlock
             key={i}
             onClick={() => {
               setSelected(i);
-              if (choice.setFlag) setFlag(choice.setFlag, true); 
+              if (choice.setFlag) {
+                setFlag(choice.setFlag, true);
+              }
             }}
-            className={`button ${selected === i ? 'button-primary' : 'button-secondary'}`}
+            className={`button ${
+              selected === i ? "button-primary" : "button-secondary"
+            }`}
           >
             {choice.label}
           </button>

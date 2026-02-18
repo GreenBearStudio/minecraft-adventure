@@ -62,13 +62,14 @@ Something that would one day welcome villagers, friends, and maybe even a few po
 The night was dark, but Hunjvo’s fortress glowed bright—
 a beacon of determination, chaos, and fluffy socks.
 
-<ChoiceBlock
-  prompt="“Hunjvo, wakes up the next day. What do you do?"
-  choices={[
-    { label: "Take a stroll around the Fortress", content: <>Hunjvo, gets up from bed.. <AssetVideo name="d205_WalkInFortess.mp4" /> </> },
-    { label: "Not sure, think?..", content: <>Hunjvo scratches his head, unsure what to do. He blinks, looking out in the horizon. Today maybe is a day of adventure? What do you think? </> }
-  ]}
-/>
-
+<ChoiceBlock prompt="Hunjvo, wakes up the next day. What do you do?">
+  <Choice label="Take a stroll around the Fortress">
+    Hunjvo, gets up from bed.. <AssetVideo name="d205_WalkInFortess.mp4" /> 
+  </Choice>
+  
+  <Choice label="Not sure, think?..">
+    Hunjvo scratches his head, unsure what to do. He blinks, looking out in the horizon. Today maybe is a day of adventure? What do you think? 
+  </Choice>
+</ChoiceBlock>
 
 

@@ -24,13 +24,15 @@ He began chiseling tunnels deep into the mountain, weaving a hidden network bene
 
 No longer content with hiding, Hunjvo began construction of his citadel. He named it Fortress of Fluffy Socks — a joke to himself, a reminder that even in the coldest nights, warmth and absurdity could be weapons. Timber walls rose, stone towers took shape, and the snowy peaks echoed with the sound of defiance.
 
-<ChoiceBlock
-  prompt="Uh, no, Hunjvo was outside when the zombies came! What do you do?"
-  choices={[
-    { label: "Attack the Zombies", content: <>You swing your sword. The zombies attack!</> },
-    { label: "Hide in the bunker", content: <>You dash for the safety of your home, Hunjvo thinking he made it, hungrily eats his carrot, hoping no zombies will hear, unfortuantly Hunjvo was not quiet enough, the zombies are comming, prepare to fight!</> }
-  ]}
-/>
+<ChoiceBlock prompt="Uh, no, Hunjvo was outside when the zombies came! What do you do?">
+  <Choice label="Attack the Zombies"> 
+    You swing your sword. The zombies attack! 
+  </Choice>
+  
+  <Choice label="Hide in the bunker"> 
+    You dash for the safety of your home, Hunjvo thinking he made it, hungrily eats his carrot, hoping no zombies will hear, unfortuantly Hunjvo was not quiet enough, the zombies are comming, prepare to fight!
+  </Choice>
+</ChoiceBlock>
 
 <AssetVideo name="d63_ZombieBattle.mp4" />
 

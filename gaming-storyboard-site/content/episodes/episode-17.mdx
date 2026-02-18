@@ -46,12 +46,9 @@ Cracked.
 Ancient.
 Purple energy flickering faintly.
 
-<PuzzleChoiceBlock
-  prompt="A mysterious chest hums with energy. What do you do?"
-  choices={[
-    {
-      label: "Attempt to open the chest",
-      content: (
+<PuzzleChoiceBlock prompt="A mysterious chest hums with energy. What do you do?">
+  <PuzzleChoice label="Attempt to open the chest">
+      (
         <TileFlipPuzzle
           difficulty="medium"
           theme="default"
@@ -86,17 +83,16 @@ Purple energy flickering faintly.
           ]}
         />
       )
-    },
-    {
-      label: "Walk away",
-      content: (
+    </PuzzleChoice>
+    
+    <PuzzleChoice label="Walk away">
+      (
         <p>
           Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
         </p>
       )
-    }
-  ]}
-/>
+    </PuzzleChoice>
+</PuzzleChoiceBlock>
 
 <StoryReveal flag="episode17.openedChest">
   <div className="success-block">
@@ -158,12 +154,9 @@ Hunjvo, meanwhile, was already picking locks on chests.
 
 “A blacksmith—let’s see what he has!”
 
-<PuzzleChoiceBlock
-  prompt="A strong chest has a lock on it. What do you do?"
-  choices={[
-    {
-      label: "Attempt to open the chest",
-      content: (
+<PuzzleChoiceBlock prompt="A strong chest has a lock on it. What do you do?">
+  <PuzzleChoice label="Attempt to open the chest">
+      (
         <TileFlipPuzzle
           difficulty="easy"
           theme="default"
@@ -194,17 +187,16 @@ Hunjvo, meanwhile, was already picking locks on chests.
           ]}
         />
       )
-    },
-    {
-      label: "Walk away",
-      content: (
+    </PuzzleChoice>
+    
+    <PuzzleChoice label="Walk away">
+      (
         <p>
           Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
         </p>
       )
-    }
-  ]}
-/>
+    </PuzzleChoice>
+</PuzzleChoiceBlock>
 
 <StoryReveal flag="episode17.openedChest2">
   <div className="success-block">

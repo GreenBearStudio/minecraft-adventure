@@ -1,12 +1,13 @@
-import ChoiceBlock from '../components/ChoiceBlock'
-import StoryboardMedia, { MediaItem } from '../components/StoryboardMedia'
+import ChoiceBlock from "../components/ChoiceBlock";
+import Choice from "../components/Choice";
+import StoryboardMedia, { MediaItem } from "../components/StoryboardMedia";
 
 type Props = {
-  title: string
-  prompt: string
-  choices: { label: string; content: React.ReactNode }[]
-  media: MediaItem[]   
-}
+  title: string;
+  prompt: string;
+  choices: { label: string; content: React.ReactNode; setFlag?: string }[];
+  media: MediaItem[];
+};
 
 export default function EpisodeScene({ title, prompt, choices, media }: Props) {
   return (
@@ -17,8 +18,14 @@ export default function EpisodeScene({ title, prompt, choices, media }: Props) {
       <StoryboardMedia items={media} />
 
       {/* Choice block */}
-      <ChoiceBlock prompt={prompt} choices={choices} />
+      <ChoiceBlock prompt={prompt}>
+        {choices.map((choice, i) => (
+          <Choice key={i} label={choice.label} setFlag={choice.setFlag}>
+            {choice.content}
+          </Choice>
+        ))}
+      </ChoiceBlock>
     </section>
-  )
+  );
 }
 
