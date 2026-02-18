@@ -1,7 +1,7 @@
 {
   "name": "Hunjvo: The Puzzle Chronicles",
   "appId": "com.amunishk.hunjvo",
-  "version": "0.7.16",
+  "version": "0.7.17",
   "private": true,
   "scripts": {
     "dev": "next dev",

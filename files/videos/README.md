@@ -19,3 +19,11 @@ ffmpeg -ss 00:01:00 -to 00:02:30 -i input.mp4 -c:v libx264 -crf 23 -preset fast 
 - crf 23 → quality setting
 - c:a aac → re‑encode audio
 
+## ffmpeg image extraction
+
+ffmpeg -ss 00:00:05 -i input.mp4 -frames:v 1 output.png
+
+- ss 00:00:05 → seek to 5 seconds
+- frames:v 1 → output exactly one frame
+- output.png → choose PNG or JPG depending on your needs
+
