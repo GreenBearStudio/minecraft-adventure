@@ -5,7 +5,14 @@ import {
   ReactNode,
   isValidElement,
 } from "react";
+import PuzzleChoice from "./PuzzleChoice";
 import { useStoryState } from "../context/StoryStateContext";
+
+type PuzzleChoiceProps = {
+  label: string;
+  setFlag?: string;
+  children: ReactElement;
+};
 
 type PuzzleChoiceData = {
   label: string;
@@ -18,31 +25,23 @@ type Props = {
   children: ReactNode;
 };
 
-// Type predicate: ensures child is a ReactElement WITH props
-function isPuzzleChoiceElement(
-  child: ReactNode
-): child is ReactElement<{ [key: string]: any }> {
-  return isValidElement(child) && typeof child.props === "object";
-}
-
 export default function PuzzleChoiceBlock({ prompt, children }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const { setFlag } = useStoryState();
 
-  // Normalize children into an array
   const childArray = Array.isArray(children) ? children : [children];
 
-  // STEP 1 — Narrow to valid React elements with props
-  const validChildren = childArray.filter(isPuzzleChoiceElement);
-
-  // STEP 2 — Extract puzzle choices
-  const choices: PuzzleChoiceData[] = validChildren
-    .filter((child) => child.props["data-puzzlechoice"] !== undefined)
-    .map((child) => ({
-      label: child.props["data-label"],
-      setFlag: child.props["data-setflag"] || undefined,
-      content: child.props.children,
-    }));
+  const choices: PuzzleChoiceData[] = childArray
+    .filter((child): child is ReactElement => isValidElement(child))
+    .filter((child) => child.type === PuzzleChoice)
+    .map((child) => {
+      const props = child.props as PuzzleChoiceProps;
+      return {
+        label: props.label,
+        setFlag: props.setFlag,
+        content: props.children,
+      };
+    });
 
   return (
     <div className="choice-block">
@@ -75,4 +74,5 @@ export default function PuzzleChoiceBlock({ prompt, children }: Props) {
     </div>
   );
 }
+
 

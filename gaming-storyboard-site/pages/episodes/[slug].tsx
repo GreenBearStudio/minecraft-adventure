@@ -8,6 +8,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import Layout from "../../components/Layout";
 import SideStoryLink from "../../components/SideStoryLink";
 import type { SideStory } from "../../components/SideStoryLink";
+import { mdxComponents } from "../../mdx-components";
 
 type EpisodeMeta = { slug: string; title: string };
 type Frontmatter = { title: string; description: string; thumbnail: string };
@@ -33,8 +34,10 @@ export default function EpisodePage({
       <MDXRemote
       {...source}
       components={{
+        ...mdxComponents,
+
+        // Override SideStoryLink to inject sideEpisodes
         SideStoryLink: ({ slug }) => {
-          // Defensive check #1 — missing slug
           if (!slug) {
             return (
               <p style={{ color: "red" }}>
@@ -43,7 +46,6 @@ export default function EpisodePage({
             );
           }
 
-          // Defensive check #2 — slug not found
           const story = sideEpisodes.find((s) => s.slug === slug);
           if (!story) {
             return (
@@ -53,7 +55,6 @@ export default function EpisodePage({
             );
           }
 
-          // Safe to render
           return <SideStoryLink story={story} />;
         },
       }}
@@ -92,7 +93,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     return { slug: s, title: data.title || s };
   });
 
-  // ⭐ SAFE SIDE EPISODE LOADING
+  // SAFE SIDE EPISODE LOADING
   let sideEpisodes: SideStory[] = [];
 
   try {
