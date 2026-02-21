@@ -1,0 +1,76 @@
+/* ===== Episode card ===== */
+.episode-card {
+  position: relative;
+  border: 1px solid var(--color-border);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.episode-card:hover {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
+  box-shadow: var(--shadow-hover);
+}
+
+.episode-card:active {
+  background: var(--color-active-bg);
+  color: var(--color-active-text);
+}
+
+.episode-card img {
+  width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.episode-card-content {
+  transition: filter 0.3s ease;
+}
+
+.episode-card.watched .episode-card-content {
+  filter: blur(3px);
+}
+
+.episode-card.watched:hover .episode-card-content {
+  filter: none;
+}
+
+.episode-card.watched::after {
+  content: "✔";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 64px;
+  color: var(--color-success);
+  pointer-events: none;
+}
+
+/* ===== Episode grid ===== */
+.episode-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  margin-top: var(--space-lg);
+}
+
+/* ===== List view ===== */
+.episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.episode-list .episode-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.episode-list .episode-card img {
+  width: 150px;
+  border-radius: var(--radius-sm);
+}
+

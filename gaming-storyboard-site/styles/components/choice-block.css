@@ -1,0 +1,43 @@
+.choice-block {
+  margin: var(--space-md) 0;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+}
+
+.choice-block:hover {
+  background: var(--color-hover-bg);
+  box-shadow: var(--shadow-hover);
+}
+
+.choice-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.choice-content {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-bg-translucent);
+  border-radius: var(--radius-md);
+  animation: fadeInUp 0.35s ease forwards;
+}
+
+.puzzle-center {
+  text-align: center;
+}
+
+/* You already have .button, .button-primary, .button-secondary
+   but these tweaks improve clarity inside choice blocks */
+
+.choice-buttons .button {
+  min-width: 140px;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.3;
+}
+

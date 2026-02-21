@@ -1,0 +1,221 @@
+---
+title: "Episode 21 – The Mystery of the Third plus Fourth Portals"
+description: "Why are we adding thrid plus fourth? What could this mean?.."
+thumbnail: "https://i.ibb.co/wry02rWb/d251-Taiga-Portal.png"
+---
+<StoryNamespaceProvider namespace="episode21">
+
+Hunjvo woke up buzzing with excitement. Today felt like an adventure day — the kind where he forgot half his supplies, ate something questionable, and still somehow survived.
+
+He marched out of the Fortress of Fluffy Socks, chest puffed out, ready to conquer the world.
+
+Then his stomach growled.
+
+“Oh… hungry,” he muttered.
+
+The narrator sighed.
+
+Please eat bread… please eat bread…
+
+Hunjvo reached into his pocket.
+
+Pulled out…
+
+Rotten zombie flesh.
+
+Of course.
+
+He munched happily, completely unfazed, and set off.
+
+## The Portal Across the Water
+
+As he wandered through the snowy hills and pine forests, something glimmered in the distance. A strange shape. A familiar shape.
+
+<AssetImage name="d248_Portal.png" />
+
+Another portal.
+
+“What could they mean?” Hunjvo whispered dramatically, as if he were the hero of a prophecy (which, honestly, he kind of was).
+
+The narrator perked up.
+
+At least these portals have cool stuff in the chest, right?
+
+Hunjvo spotted it across a giant lake — or was it a river?
+
+<AssetImage name="d248_CloserToPortal.png" />
+
+The narrator tried to figure it out, got distracted, and forgot to check the sky.
+
+It was night.
+
+“Oh no,” the narrator whispered.
+
+But Hunjvo was already rowing.
+
+## A Night on the Water
+
+Hunjvo paddled slowly, eyes fixed on the glowing purple frame in the distance. The water rippled softly. The moon shimmered. The world was quiet.
+
+At least he was in a boat.
+
+At least mobs couldn’t reach him.
+
+Probably.
+
+Hopefully.
+
+He drifted closer and closer, waiting for sunrise so he could jump out safely.
+
+Treasure awaited.
+
+## The Chest of Mystery
+
+When dawn finally broke, Hunjvo leapt from the boat and sprinted to the ruined portal.
+
+<AssetImage name="d249_CloserToPortal2.png" />
+
+<PuzzleChoiceBlock prompt="A mysterious chest hums with energy. What do you do?">
+  <PuzzleChoice label="Attempt to open the chest">
+        <TileFlipPuzzle
+          difficulty="medium"
+          theme="default">
+        <UnlockStage moves="5">
+           <p>The puzzle glows faintly.</p>
+        </UnlockStage>
+        
+        <UnlockStage moves="15">
+                <ChoiceBlock prompt="The lock crumbles open.. do you wish to continue?">
+                  <Choice label="Smash the lock! OPEN it!" setFlag="openedChest">
+                      With a heavy swing of his sword, Hunjvo smashes open the chest!
+                  </Choice>
+                   
+                  <Choice label="Keep solving it.."> 
+                      You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. 
+                  </Choice>
+                </ChoiceBlock>
+        </UnlockStage>
+            
+        <UnlockStage solved setFlag="openedChest">
+              <p>The chest opens!</p>
+        </UnlockStage>
+        </TileFlipPuzzle>
+    </PuzzleChoice>
+      
+    <PuzzleChoice label="Walk away">
+        <p>
+          Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
+        </p>
+    </PuzzleChoice>
+</PuzzleChoiceBlock>
+
+<StoryReveal flag="episode21.openedChest">
+  <div className="success-block">
+    <h4>The lock opens!</h4>
+    <p>The chest contains:</p>
+    <ul>
+      <li>gold shovel (fortune 2, efficiency 2, unbreaking 1)</li>
+      <li>gold pickaxe (silk touch, unbreaking 2)</li>
+      <li>gold sword (smite 2)</li>
+      <li>gold sword (unbreaking 1)</li>
+    </ul>
+    <AssetImage name="d249_PortalChest.png" />
+  </div>
+</StoryReveal>
+
+Hunjvo ready for more? 
+
+<ChoiceBlock prompt="Something cold is in the air? Should we look around?">
+  <Choice label="Yeah!">
+    Hunjvo climbs a small hill. He looks out in the distance. 
+    
+    <AssetImage name="d250_ForzenWasteland.png" /> 
+    
+    The frozen peaks.. the villagers told Hunjvo about the cold breeze and whispers of chill. "But Happy the polar bear is there..", maybe Hunjvo maybe. Better get some more supplies before we head out there.
+  </Choice>
+  
+  <Choice label="I'm too cold, Hunjvo..">
+    "Next time, at night.." thought Hunjvo. Wait what!?
+  </Choice>
+</ChoiceBlock>
+
+## The Taiga Twist
+
+Then he turned around.
+
+“Wait… taiga?”
+
+Hunjvo blinked.
+
+He had been in the water.
+
+He had been rowing.
+
+How did he end up near another portal in a completely different biome?
+
+<AssetImage name="d251_TaigaPortal.png" />
+
+The narrator stared.
+
+Hunjvo… how did you do that?
+
+But Hunjvo didn’t question it.
+
+He simply shrugged.
+
+<PuzzleChoiceBlock prompt="A mysterious chest hums with energy. This one seems to have it's lock broken off a bit. What do you do?">
+  <PuzzleChoice label="Attempt to open the chest">
+        <TileFlipPuzzle
+          difficulty="easy"
+          theme="forest">
+        <UnlockStage moves="5">
+           <p>The puzzle glows faintly.</p>
+        </UnlockStage>
+        
+        <UnlockStage moves="12">
+                <ChoiceBlock prompt="The lock crumbles open.. do you wish to continue?">
+                  <Choice label="Smash the lock! OPEN it!" setFlag="openedChest2">
+                      With a heavy swing of his sword, Hunjvo smashes open the chest!
+                  </Choice>
+                   
+                  <Choice label="Keep solving it.."> 
+                      You can do it. Check out About page on how to solve Tile-Flip Puzzle, might be helpful. 
+                  </Choice>
+                </ChoiceBlock>
+        </UnlockStage>
+            
+        <UnlockStage solved setFlag="openedChest2">
+              <p>The chest opens!</p>
+        </UnlockStage>
+        </TileFlipPuzzle>
+    </PuzzleChoice>
+      
+    <PuzzleChoice label="Walk away">
+        <p>
+          Hunjvo takes a breath and slowly walks away, pondering the mysteries of the unknown.
+        </p>
+    </PuzzleChoice>
+</PuzzleChoiceBlock>
+
+<StoryReveal flag="episode21.openedChest2">
+  <div className="success-block">
+    <h4>The lock opens!</h4>
+    <p>The chest contains:</p>
+    <ul>
+      <li>iron nugget (16)</li>
+      <li>lodestone</li>
+      <li>flint and steel</li>
+      <li>golden boots (unbreaking 1)</li>
+      <li>golden leggings (protection 2)</li>
+      <li>gold axe (efficiency 2)</li>
+      <li>gold pickaxe (unbreaking 1)</li>
+      <li>gold hoe (fortune 2, unbreaking 1)</li>
+    </ul>
+    <AssetImage name="d251_TaigaPortalChest.png" />
+  </div>
+  <p>Hunjvo cracked open the second chest, grabbed everything inside, and declared: “Adventure complete!”</p>
+</StoryReveal>
+
+Absolutely no idea how he got there, Hunjvo marched off toward home — ready for whatever chaos awaited him next.
+
+</StoryNamespaceProvider>

@@ -1,0 +1,12 @@
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  margin: var(--space-md) 0 var(--space-sm);
+  color: var(--color-text);
+}
+
+p {
+  margin: var(--space-sm) 0;
+  line-height: 1.6;
+}
+

@@ -13,6 +13,7 @@ import PuzzleChoiceBlock from './components/PuzzleChoiceBlock'
 import PuzzleChoice from './components/PuzzleChoice'
 import { StoryNamespaceProvider } from "./context/StoryNamespaceContext"
 import SideStoryLink from './components/SideStoryLink'
+import MazePuzzle from './components/MazePuzzle'
 
 // Components safe for MDXProvider
 export const mdxComponents = {
@@ -28,8 +29,9 @@ export const mdxComponents = {
   PuzzleChoiceBlock,
   PuzzleChoice,
   
-  // Tile Puzzle
+  // Tile, Maze Puzzle
   TileFlipPuzzle,
+  MazePuzzle,
   UnlockStage,
 
   StoryboardMedia,

@@ -1,0 +1,38 @@
+.success-block,
+.warning-block,
+.info-block {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-translucent);
+  margin-top: var(--space-md);
+}
+
+.success-block { border: 2px solid var(--color-success); }
+.warning-block { border: 2px solid var(--color-warning); }
+.info-block    { border: 2px solid var(--color-info); }
+
+/* ===== Progress Bar ===== */
+.progress-container {
+  margin: 1rem 0 2rem;
+}
+
+.progress-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: var(--color-text);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+}
+

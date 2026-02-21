@@ -3,7 +3,7 @@ import { useStoryState } from "../context/StoryStateContext";
 import { useStoryNamespace } from "../context/StoryNamespaceContext";
 import UnlockStage from "./UnlockStage";
 
-type Difficulty = "easy" | "medium" | "hard";
+type Difficulty = "easy" | "medium" | "hard" | "very_hard";
 type Theme = "default" | "snow" | "forest" | "desert";
 
 type UnlockStageProps = {
@@ -25,9 +25,10 @@ export default function TileFlipPuzzle({
   children,
 }: TileFlipPuzzleProps) {
   const sizeMap: Record<Difficulty, number> = {
-    easy: 3,
-    medium: 5,
-    hard: 7,
+    easy: 2,
+    medium: 3,
+    hard: 5,
+    very_hard: 7,
   };
 
   const size = sizeMap[difficulty];
@@ -71,7 +72,7 @@ export default function TileFlipPuzzle({
   };
 
   const isSolved =
-    grid.length > 0 && grid.every((row) => row.every((cell) => cell === 0));
+    grid.length > 0 && grid.every((row) => row.every((cell) => cell === 1));
 
   const themeStyles: Record<Theme, { active: string; inactive: string }> = {
     default: { active: "gold", inactive: "black" },
@@ -83,22 +84,6 @@ export default function TileFlipPuzzle({
   const colors = themeStyles[theme];
 
   const childArray = Array.isArray(children) ? children : children ? [children] : [];
-  
-  console.log("🔍 RAW children:", children);
-  console.log("🔍 childArray:", childArray);
-
-  childArray.forEach((child, i) => {
-  if (isValidElement(child)) {
-    console.log(
-      `🔍 child[${i}] type:`,
-      child.type,
-      "props:",
-      child.props
-    );
-  } else {
-    console.log(`🔍 child[${i}] is NOT a valid React element:`, child);
-  }
-  });
 
   const unlockStages: UnlockStageProps[] = childArray
     .filter((child): child is ReactElement => isValidElement(child))

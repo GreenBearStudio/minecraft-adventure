@@ -1,0 +1,12 @@
+/* ===== Accordion ===== */
+.accordion-item {
+  margin-bottom: 1rem;
+}
+
+.accordion-content {
+  padding: 0.75rem 1rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-left: 2px solid var(--color-border);
+}
+
