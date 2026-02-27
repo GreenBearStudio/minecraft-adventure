@@ -27,3 +27,13 @@ ffmpeg -ss 00:00:05 -i input.mp4 -frames:v 1 output.png
 - frames:v 1 → output exactly one frame
 - output.png → choose PNG or JPG depending on your needs
 
+## ffmpeg gif to image
+
+ffmpeg -i input.gif -frames:v 1 output.png
+
+-i input.gif loads the GIF
+
+-frames:v 1 tells FFmpeg to output only one frame
+
+output.png is the extracted image (PNG is recommended for quality)
+

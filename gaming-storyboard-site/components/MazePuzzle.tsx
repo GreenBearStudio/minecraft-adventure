@@ -25,7 +25,12 @@ interface MazePuzzleProps {
   theme?: Theme;
   enableEnemy?: boolean;
   enemySprite?: string;
+  enableEnemySpawn?: boolean;
+  enemySpawnSprite?: string;
   openness?: string;
+  enemySpeed?: string;
+  enemyNumber?: string;
+  enemySpawnNumber?: string;
   children?: ReactNode;
 }
 
@@ -34,7 +39,12 @@ export default function MazePuzzle({
   theme = "default",
   enableEnemy = false,
   enemySprite,
+  enableEnemySpawn = false,
+  enemySpawnSprite,
   openness = "0",
+  enemySpeed = "1",
+  enemyNumber = "1",
+  enemySpawnNumber = "0",
   children,
 }: MazePuzzleProps) {
   // -------------------------------
@@ -52,7 +62,10 @@ export default function MazePuzzle({
   const [maze, setMaze] = useState<number[][]>([]);
   const [player, setPlayer] = useState({ x: 1, y: 1 });
   const [exit, setExit] = useState({ x: size - 2, y: size - 2 });
-  const [enemy, setEnemy] = useState({ x: 1, y: 1 });
+  const [enemies, setEnemies] = useState<{ x: number; y: number }[]>([]);
+  const [spawners, setSpawners] = useState<
+      { x: number; y: number; cooldown: number }[]
+    >([]);
   const [moves, setMoves] = useState(0);
   const [solved, setSolved] = useState(false);
   const [firedFlags, setFiredFlags] = useState<Record<string, boolean>>({});
@@ -61,8 +74,12 @@ export default function MazePuzzle({
   const namespace = useStoryNamespace();
   
   const opennessValue = Number(openness);
+  const enemySpeedValue = Number(enemySpeed);
+  const enemyNumberValue = Number(enemyNumber);
+  const enemySpawnNumberValue = Number(enemySpawnNumber);
 
   const effectiveEnemySprite = enemySprite || "/images/warden.png";
+  const effectiveEnemySpawnSprite = enemySpawnSprite || "/images/sculk_shrieker.png";
   const playerSprite = "/images/player.png";
 
   // -------------------------------
@@ -119,72 +136,174 @@ export default function MazePuzzle({
   // 3. Restart / Initialize Maze
   // -------------------------------
   const restartMaze = useCallback(() => {
-    const m = generateMaze();
-    setMaze(m);
-    setPlayer({ x: 1, y: 1 });
-    setExit({ x: size - 2, y: size - 2 });
-    // enemy starts bottom-left-ish
-    setEnemy({ x: 1, y: size - 2 });
-    setMoves(0);
-    setSolved(false);
-    setFiredFlags({});
-  }, [generateMaze, size]);
+      const m = generateMaze();
+      setMaze(m);
+
+      const playerStart = { x: 1, y: 1 };
+      const exitPos = { x: size - 2, y: size - 2 };
+
+      setPlayer(playerStart);
+      setExit(exitPos);
+
+      // Random enemy placement
+      const walkable = getWalkableTiles(m);
+      const enemies = pickRandomEnemies(walkable, enemyNumberValue, [playerStart, exitPos]);
+      setEnemies(enemies);
+
+      // pick random spawners
+      if (enableEnemySpawn) {
+          const spawnerTiles = pickRandomEnemies(walkable, enemySpawnNumberValue, [playerStart, exitPos]);
+          setSpawners(
+            spawnerTiles.map(s => ({
+              x: s.x,
+              y: s.y,
+              cooldown: 0
+            }))
+          );
+      }
+
+      setMoves(0);
+      setSolved(false);
+    }, [size, enemyNumberValue, generateMaze]);
 
   useEffect(() => {
     restartMaze();
   }, [restartMaze]);
+  
+  // -------------------------------
+  const getWalkableTiles = (maze: number[][]) => {
+      const tiles: { x: number; y: number }[] = [];
+
+      for (let y = 0; y < maze.length; y++) {
+        for (let x = 0; x < maze[0].length; x++) {
+          if (maze[y][x] === 1) {
+            tiles.push({ x, y });
+          }
+        }
+      }
+
+      return tiles;
+    };
+    
+  const isPlayerNear = (px: number, py: number, sx: number, sy: number) => {
+      return Math.abs(px - sx) + Math.abs(py - sy) <= 5;
+    };
+    
+  const pickRandomEnemies = (
+      tiles: { x: number; y: number }[],
+      count: number,
+      forbidden: { x: number; y: number }[]
+    ) => {
+      const allowed = tiles.filter(
+        t => !forbidden.some(f => f.x === t.x && f.y === t.y)
+      );
+
+      const enemies: { x: number; y: number }[] = [];
+
+      for (let i = 0; i < count; i++) {
+        if (allowed.length === 0) break;
+
+        const idx = Math.floor(Math.random() * allowed.length);
+        enemies.push(allowed[idx]);
+        allowed.splice(idx, 1); // remove so no duplicates
+      }
+
+      return enemies;
+    };
 
   // -------------------------------
   // 4. Enemy Movement Logic
   // -------------------------------
-  const moveEnemy = (targetPlayer: { x: number; y: number }) => {
-    if (!enableEnemy || solved) return;
+  const moveEnemies = (targetPlayer: { x: number; y: number }) => {
+      if (!enableEnemy || solved) return;
 
-    let { x, y } = enemy;
+      setEnemies((prevEnemies) => {
+        const updated = prevEnemies.map((enemy) => {
+          let { x, y } = enemy;
 
-    const dx = Math.sign(targetPlayer.x - x);
-    const dy = Math.sign(targetPlayer.y - y);
+          const dxValue = targetPlayer.x - x;
+          const dyValue = targetPlayer.y - y;
+          let dx = Math.sign(dxValue);
+          let dy = Math.sign(dyValue);
+          
+          // check distance, if within 5 blocks chase!
+          if (Math.abs(dxValue) > 5 || Math.abs(dyValue) > 5) { 
+              // not, random movement
+              dx = Math.random() < 0.5 ? -dx : dx;
+              dy = Math.random() < 0.5 ? -dy : dy;
+          } 
+          
+          // Try horizontal first
+          if (dx !== 0 && maze[y] && maze[y][x + dx] === 1) {
+            x += dx;
+          }
+          // Otherwise vertical
+          else if (dy !== 0 && maze[y + dy] && maze[y + dy][x] === 1) {
+            y += dy;
+          }
 
-    // Try horizontal move first
-    if (dx !== 0 && maze[y] && maze[y][x + dx] === 1) {
-      x += dx;
-    }
-    // Otherwise try vertical move
-    else if (dy !== 0 && maze[y + dy] && maze[y + dy][x] === 1) {
-      y += dy;
-    }
+          return { x, y };
+        });
 
-    const newEnemy = { x, y };
-    setEnemy(newEnemy);
+        // Collision check: ANY enemy catches the player
+        if (updated.some((e) => e.x === targetPlayer.x && e.y === targetPlayer.y)) {
+          restartMaze();
+        }
 
-    // Collision check
-    if (newEnemy.x === targetPlayer.x && newEnemy.y === targetPlayer.y) {
-      restartMaze();
-    }
-  };
+        return updated;
+      });
+    };
 
   // -------------------------------
   // 5. Player Movement Logic
   // -------------------------------
   const tryMove = (dx: number, dy: number) => {
-    if (solved) return;
+      if (solved) return;
 
-    const nx = player.x + dx;
-    const ny = player.y + dy;
+      const nx = player.x + dx;
+      const ny = player.y + dy;
 
-    if (maze[ny] && maze[ny][nx] === 1) {
-      const newPlayer = { x: nx, y: ny };
-      setPlayer(newPlayer);
-      setMoves((m) => m + 1);
+      if (maze[ny] && maze[ny][nx] === 1) {
+        const newPlayer = { x: nx, y: ny };
+        setPlayer(newPlayer);
+        
+        setSpawners(prev =>
+          prev.map(spawner => {
+            // If on cooldown, decrement and skip
+            if (spawner.cooldown > 0) {
+              return { ...spawner, cooldown: spawner.cooldown - 1 };
+            }
 
-      // Enemy moves after player
-      moveEnemy(newPlayer);
+            // If player is near, spawn enemy
+            if (isPlayerNear(newPlayer.x, newPlayer.y, spawner.x, spawner.y)) {
+              setEnemies(enemies => [...enemies, { x: spawner.x, y: spawner.y }]);
 
-      if (nx === exit.x && ny === exit.y) {
-        setSolved(true);
+              return {
+                ...spawner,
+                cooldown: 5 // deactivate for 5 player moves
+              };
+            }
+
+            return spawner;
+          })
+        );
+
+        setMoves((m) => {
+          const newMoves = m + 1;
+
+          // Enemy moves every other enemySpeed turn
+          if (newMoves % enemySpeed === 0) {
+            moveEnemies(newPlayer);
+          }
+
+          return newMoves;
+        });
+
+        if (nx === exit.x && ny === exit.y) {
+          setSolved(true);
+        }
       }
-    }
-  };
+    };
 
   // Keyboard controls
   useEffect(() => {
@@ -275,6 +394,11 @@ export default function MazePuzzle({
           An enemy is chasing you! If it catches you, the maze restarts.
         </p>
       )}
+      {enableEnemySpawn && (
+        <p style={{ color: "#cc4444", fontSize: "0.9rem" }}>
+          Careful where you go! Enemies can appear out there!
+        </p>
+      )}
 
       <div
         style={{
@@ -288,7 +412,8 @@ export default function MazePuzzle({
           row.map((cell, x) => {
             const isPlayer = x === player.x && y === player.y;
             const isExit = x === exit.x && y === exit.y;
-            const isEnemy = enableEnemy && x === enemy.x && y === enemy.y;
+            const isEnemy = enableEnemy && enemies.some(e => e.x === x && e.y === y);
+            const isSpawner = enableEnemySpawn && spawners.some(s => s.x === x && s.y === y);
 
             const isAdjacent =
               Math.abs(x - player.x) + Math.abs(y - player.y) === 1 &&
@@ -315,6 +440,21 @@ export default function MazePuzzle({
                   cursor: isAdjacent ? "pointer" : "default",
                 }}
               >
+                {isSpawner && (
+                  <img
+                    src={effectiveEnemySpawnSprite}
+                    alt="enemySpawn"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      pointerEvents: "none",
+                    }}
+                  />
+                )}
+              
                 {isExit && (
                   <span
                     style={{
@@ -360,7 +500,7 @@ export default function MazePuzzle({
                       pointerEvents: "none",
                     }}
                   />
-                )}
+                )}                
               </div>
             );
           })
