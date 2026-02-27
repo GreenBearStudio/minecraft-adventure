@@ -1,4 +1,11 @@
-import { useState, useEffect, useCallback, ReactNode, ReactElement, isValidElement } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+  ReactElement,
+  isValidElement,
+} from "react";
 import { useStoryState } from "../context/StoryStateContext";
 import { useStoryNamespace } from "../context/StoryNamespaceContext";
 import UnlockStage from "./UnlockStage";
@@ -16,12 +23,18 @@ type UnlockStageProps = {
 interface MazePuzzleProps {
   difficulty?: Difficulty;
   theme?: Theme;
+  enableEnemy?: boolean;
+  enemySprite?: string;
+  openness?: string;
   children?: ReactNode;
 }
 
 export default function MazePuzzle({
   difficulty = "medium",
   theme = "default",
+  enableEnemy = false,
+  enemySprite,
+  openness = "0",
   children,
 }: MazePuzzleProps) {
   // -------------------------------
@@ -39,12 +52,18 @@ export default function MazePuzzle({
   const [maze, setMaze] = useState<number[][]>([]);
   const [player, setPlayer] = useState({ x: 1, y: 1 });
   const [exit, setExit] = useState({ x: size - 2, y: size - 2 });
+  const [enemy, setEnemy] = useState({ x: 1, y: 1 });
   const [moves, setMoves] = useState(0);
   const [solved, setSolved] = useState(false);
   const [firedFlags, setFiredFlags] = useState<Record<string, boolean>>({});
 
   const { setNamespacedFlag } = useStoryState();
   const namespace = useStoryNamespace();
+  
+  const opennessValue = Number(openness);
+
+  const effectiveEnemySprite = enemySprite || "/images/warden.png";
+  const playerSprite = "/images/player.png";
 
   // -------------------------------
   // 2. Maze Generation (Recursive Backtracking)
@@ -66,7 +85,13 @@ export default function MazePuzzle({
         const nx = x + dx;
         const ny = y + dy;
 
-        if (nx > 0 && nx < size - 1 && ny > 0 && ny < size - 1 && grid[ny][nx] === 0) {
+        if (
+          nx > 0 &&
+          nx < size - 1 &&
+          ny > 0 &&
+          ny < size - 1 &&
+          grid[ny][nx] === 0
+        ) {
           grid[ny][nx] = 1;
           grid[y + dy / 2][x + dx / 2] = 1;
           carve(nx, ny);
@@ -76,25 +101,70 @@ export default function MazePuzzle({
 
     grid[1][1] = 1;
     carve(1, 1);
+    
+    if (opennessValue > 0) {
+      for (let y = 1; y < size - 1; y++) {
+        for (let x = 1; x < size - 1; x++) {
+          if (grid[y][x] === 0 && Math.random() < opennessValue) {
+            grid[y][x] = 1;
+          }
+        }
+      }
+    }
 
     return grid;
   }, [size]);
 
   // -------------------------------
-  // 3. Initialize Maze
+  // 3. Restart / Initialize Maze
   // -------------------------------
-  useEffect(() => {
+  const restartMaze = useCallback(() => {
     const m = generateMaze();
     setMaze(m);
     setPlayer({ x: 1, y: 1 });
     setExit({ x: size - 2, y: size - 2 });
+    // enemy starts bottom-left-ish
+    setEnemy({ x: 1, y: size - 2 });
     setMoves(0);
     setSolved(false);
     setFiredFlags({});
-  }, [size, generateMaze]);
+  }, [generateMaze, size]);
+
+  useEffect(() => {
+    restartMaze();
+  }, [restartMaze]);
 
   // -------------------------------
-  // 4. Movement Logic
+  // 4. Enemy Movement Logic
+  // -------------------------------
+  const moveEnemy = (targetPlayer: { x: number; y: number }) => {
+    if (!enableEnemy || solved) return;
+
+    let { x, y } = enemy;
+
+    const dx = Math.sign(targetPlayer.x - x);
+    const dy = Math.sign(targetPlayer.y - y);
+
+    // Try horizontal move first
+    if (dx !== 0 && maze[y] && maze[y][x + dx] === 1) {
+      x += dx;
+    }
+    // Otherwise try vertical move
+    else if (dy !== 0 && maze[y + dy] && maze[y + dy][x] === 1) {
+      y += dy;
+    }
+
+    const newEnemy = { x, y };
+    setEnemy(newEnemy);
+
+    // Collision check
+    if (newEnemy.x === targetPlayer.x && newEnemy.y === targetPlayer.y) {
+      restartMaze();
+    }
+  };
+
+  // -------------------------------
+  // 5. Player Movement Logic
   // -------------------------------
   const tryMove = (dx: number, dy: number) => {
     if (solved) return;
@@ -103,8 +173,12 @@ export default function MazePuzzle({
     const ny = player.y + dy;
 
     if (maze[ny] && maze[ny][nx] === 1) {
-      setPlayer({ x: nx, y: ny });
+      const newPlayer = { x: nx, y: ny };
+      setPlayer(newPlayer);
       setMoves((m) => m + 1);
+
+      // Enemy moves after player
+      moveEnemy(newPlayer);
 
       if (nx === exit.x && ny === exit.y) {
         setSolved(true);
@@ -125,19 +199,46 @@ export default function MazePuzzle({
   });
 
   // -------------------------------
-  // 5. Theme Colors
+  // 6. Theme Colors
   // -------------------------------
-  const themeStyles: Record<Theme, { wall: string; path: string; player: string; exit: string }> = {
-    default: { wall: "#222", path: "#e0c060", player: "gold", exit: "#00cc66" },
-    snow: { wall: "#003366", path: "#aeefff", player: "#ffffff", exit: "#66ffcc" },
-    forest: { wall: "#1b3d1b", path: "#4caf50", player: "#a2ff9e", exit: "#00ff88" },
-    desert: { wall: "#8c6d1f", path: "#f4d35e", player: "#ffe08a", exit: "#ffb347" },
+  const themeStyles: Record<
+    Theme,
+    { wall: string; path: string; player: string; exit: string; enemy: string }
+  > = {
+    default: {
+      wall: "#222",
+      path: "#e0c060",
+      player: "gold",
+      exit: "#00cc66",
+      enemy: "#ff4444",
+    },
+    snow: {
+      wall: "#003366",
+      path: "#aeefff",
+      player: "#ffffff",
+      exit: "#66ffcc",
+      enemy: "#ff6666",
+    },
+    forest: {
+      wall: "#1b3d1b",
+      path: "#4caf50",
+      player: "#a2ff9e",
+      exit: "#00ff88",
+      enemy: "#ff5555",
+    },
+    desert: {
+      wall: "#8c6d1f",
+      path: "#f4d35e",
+      player: "#ffe08a",
+      exit: "#ffb347",
+      enemy: "#ff6666",
+    },
   };
 
   const colors = themeStyles[theme];
 
   // -------------------------------
-  // 6. UnlockStages (same pattern as TileFlipPuzzle)
+  // 7. UnlockStages (same pattern as TileFlipPuzzle)
   // -------------------------------
   const childArray = Array.isArray(children) ? children : children ? [children] : [];
 
@@ -161,7 +262,7 @@ export default function MazePuzzle({
   }, [moves, solved, unlockStages, firedFlags, setNamespacedFlag, namespace]);
 
   // -------------------------------
-  // 7. Render Maze
+  // 8. Render Maze
   // -------------------------------
   return (
     <div className="maze-puzzle">
@@ -169,18 +270,25 @@ export default function MazePuzzle({
         Moves: {moves} {solved && "✅ Escaped!"}
       </p>
 
+      {enableEnemy && (
+        <p style={{ color: "#cc4444", fontSize: "0.9rem" }}>
+          An enemy is chasing you! If it catches you, the maze restarts.
+        </p>
+      )}
+
       <div
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${size}, var(--tile-size))`,
           justifyContent: "center",
-          margin: "1rem 0",          
+          margin: "1rem 0",
         }}
       >
         {maze.map((row, y) =>
           row.map((cell, x) => {
             const isPlayer = x === player.x && y === player.y;
             const isExit = x === exit.x && y === exit.y;
+            const isEnemy = enableEnemy && x === enemy.x && y === enemy.y;
 
             const isAdjacent =
               Math.abs(x - player.x) + Math.abs(y - player.y) === 1 &&
@@ -207,21 +315,6 @@ export default function MazePuzzle({
                   cursor: isAdjacent ? "pointer" : "default",
                 }}
               >
-                {isPlayer && (
-                  <img
-                    src="/images/player.png"
-                    alt="player"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      pointerEvents: "none",
-                    }}
-                  />
-                )}
-
                 {isExit && (
                   <span
                     style={{
@@ -238,13 +331,46 @@ export default function MazePuzzle({
                     EXIT
                   </span>
                 )}
+
+                {isPlayer && (
+                  <img
+                    src={playerSprite}
+                    alt="player"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      pointerEvents: "none",
+                    }}
+                  />
+                )}
+
+                {isEnemy && (
+                  <img
+                    src={effectiveEnemySprite}
+                    alt="enemy"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      pointerEvents: "none",
+                    }}
+                  />
+                )}
               </div>
             );
           })
         )}
       </div>
 
-      <p>Click on adjacent cells or use arrow keys or WASD to navigate the maze!</p>
+      <p>
+        Click on adjacent cells or use arrow keys / WASD to navigate the maze.
+        {enableEnemy && " Don’t let the enemy catch you!"}
+      </p>
 
       {unlockStages.map((stage, i) => {
         const shouldShow =
