@@ -66,6 +66,7 @@ export default function MazePuzzle({
   const [spawners, setSpawners] = useState<
       { x: number; y: number; cooldown: number }[]
     >([]);
+  const [spawnFlash, setSpawnFlash] = useState<{x:number,y:number} | null>(null);
   const [moves, setMoves] = useState(0);
   const [solved, setSolved] = useState(false);
   const [firedFlags, setFiredFlags] = useState<Record<string, boolean>>({});
@@ -221,13 +222,11 @@ export default function MazePuzzle({
         const updated = prevEnemies.map((enemy) => {
           let { x, y } = enemy;
 
-          const dxValue = targetPlayer.x - x;
-          const dyValue = targetPlayer.y - y;
-          let dx = Math.sign(dxValue);
-          let dy = Math.sign(dyValue);
+          let dx = Math.sign(targetPlayer.x - x);
+          let dy = Math.sign(targetPlayer.y - y);
           
           // check distance, if within 5 blocks chase!
-          if (Math.abs(dxValue) > 5 || Math.abs(dyValue) > 5) { 
+          if (!isPlayerNear(targetPlayer.x, targetPlayer.y, x, y)) { 
               // not, random movement
               dx = Math.random() < 0.5 ? -dx : dx;
               dy = Math.random() < 0.5 ? -dy : dy;
@@ -277,6 +276,8 @@ export default function MazePuzzle({
             // If player is near, spawn enemy
             if (isPlayerNear(newPlayer.x, newPlayer.y, spawner.x, spawner.y)) {
               setEnemies(enemies => [...enemies, { x: spawner.x, y: spawner.y }]);
+              setSpawnFlash({ x: spawner.x, y: spawner.y });
+              setTimeout(() => setSpawnFlash(null), 500);
 
               return {
                 ...spawner,
@@ -389,14 +390,14 @@ export default function MazePuzzle({
         Moves: {moves} {solved && "✅ Escaped!"}
       </p>
 
-      {enableEnemy && (
+      {enableEnemy && !enableEnemySpawn && (
         <p style={{ color: "#cc4444", fontSize: "0.9rem" }}>
           An enemy is chasing you! If it catches you, the maze restarts.
         </p>
       )}
       {enableEnemySpawn && (
         <p style={{ color: "#cc4444", fontSize: "0.9rem" }}>
-          Careful where you go! Enemies can appear out there!
+          Careful where you go! Enemies can appear out there! If enemy catches you, the maze restarts.
         </p>
       )}
 
@@ -414,6 +415,7 @@ export default function MazePuzzle({
             const isExit = x === exit.x && y === exit.y;
             const isEnemy = enableEnemy && enemies.some(e => e.x === x && e.y === y);
             const isSpawner = enableEnemySpawn && spawners.some(s => s.x === x && s.y === y);
+            const isFlash = spawnFlash && spawnFlash.x === x && spawnFlash.y === y;
 
             const isAdjacent =
               Math.abs(x - player.x) + Math.abs(y - player.y) === 1 &&
@@ -500,7 +502,29 @@ export default function MazePuzzle({
                       pointerEvents: "none",
                     }}
                   />
-                )}                
+                )}
+                
+                {/* tile-based flash overlay */}
+                {isFlash && (
+                    <div style={{ 
+                        position: "absolute", 
+                        top: 0, 
+                        left: 0, 
+                        width: "100%", 
+                        height: "100%", 
+                        background: "rgba(255, 0, 0, 0.65)", 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center", 
+                        color: "white", 
+                        fontWeight: 700, 
+                        fontSize: "0.8rem", 
+                        pointerEvents: "none", 
+                        animation: "spawnerPop 0.45s ease-out" 
+                   }}>
+                    Enemy!
+                    </div>
+                 )}
               </div>
             );
           })
