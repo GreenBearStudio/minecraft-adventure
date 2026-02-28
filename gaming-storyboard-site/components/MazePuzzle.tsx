@@ -28,6 +28,7 @@ interface MazePuzzleProps {
   enemySprite?: string;
   enableEnemySpawn?: boolean;
   enemySpawnSprite?: string;
+  enemySpawnSpriteSound?: string;
   openness?: string;
   enemySpeed?: string;
   enemyNumber?: string;
@@ -42,6 +43,7 @@ export default function MazePuzzle({
   enemySprite,
   enableEnemySpawn = false,
   enemySpawnSprite,
+  enemySpawnSpriteSound,
   openness = "0",
   enemySpeed = "1",
   enemyNumber = "1",
@@ -53,22 +55,25 @@ export default function MazePuzzle({
     medium: 11,
     hard: 17,
   };
-
   const size = sizeMap[difficulty];
 
   const [maze, setMaze] = useState<number[][]>([]);
   const [player, setPlayer] = useState({ x: 1, y: 1 });
   const [exit, setExit] = useState({ x: size - 2, y: size - 2 });
   const [enemies, setEnemies] = useState<{ x: number; y: number }[]>([]);
-
-  // FIXED: spawner type includes hasSpawned
-  const [spawners, setSpawners] = useState<
-    { x: number; y: number; hasSpawned: boolean }[]
-  >([]);
-
+  const [spawners, setSpawners] = useState<{ x: number; y: number; hasSpawned: boolean }[]>([]);
+  const [visibleTiles, setVisibleTiles] = useState<Set<string>>(new Set());
+  const [visited, setVisited] = useState<Set<string>>(new Set());
+  const [visionRadius, setVisionRadius] = useState(5);
   const [moves, setMoves] = useState(0);
   const [solved, setSolved] = useState(false);
-  const [firedFlags, setFiredFlags] = useState<Record<string, boolean>>({});
+  const [firedFlags, setFiredFlags] = useState<Record<string, boolean>>({});  
+  
+  // If there are spawners
+  if (!enableEnemy && enableEnemySpawn) {
+    enableEnemy = true;
+    enemyNumber = "0";
+  }
 
   // Flash system
   type Flash = { id: string; x: number; y: number; expiresAt: number };
@@ -88,9 +93,10 @@ export default function MazePuzzle({
   const enemySpawnNumberValue = Number(enemySpawnNumber);
 
   const effectiveEnemySprite = enemySprite || "/images/warden.png";
-  const effectiveEnemySpawnSprite =
-    enemySpawnSprite || "/images/sculk_shrieker.png";
+  const effectiveEnemySpawnSprite = enemySpawnSprite || "/images/sculk_shrieker.png";
   const playerSprite = "/images/player.png";
+  
+  const spawnSoundSrc = enemySpawnSpriteSound || "/sounds/Sculk_shrieker_shriek5.mp3";
 
   // -------------------------------
   // Maze Generation
@@ -149,19 +155,24 @@ export default function MazePuzzle({
     const m = generateMaze();
     setMaze(m);
 
+    //set start and end
     const playerStart = { x: 1, y: 1 };
     const exitPos = { x: size - 2, y: size - 2 };
-
     setPlayer(playerStart);
     setExit(exitPos);
 
     const walkable = getWalkableTiles(m);
-    const enemies = pickRandomEnemies(walkable, enemyNumberValue, [
-      playerStart,
-      exitPos,
-    ]);
-    setEnemies(enemies);
-
+    
+    //place current enemies
+    if (enableEnemy) {
+        const enemies = pickRandomEnemies(walkable, enemyNumberValue, [
+          playerStart,
+          exitPos,
+        ]);
+        setEnemies(enemies);
+    }
+    
+    //place spawners
     if (enableEnemySpawn) {
       const spawnerTiles = pickRandomEnemies(
         walkable,
@@ -176,15 +187,38 @@ export default function MazePuzzle({
         }))
       );
     }
+    
+    //light of sight, fog of war initial run
+    const visible = new Set<string>();    
+    for (let dy = -visionRadius; dy <= visionRadius; dy++) { 
+        for (let dx = -visionRadius; dx <= visionRadius; dx++) { 
+            const vx = playerStart.x + dx; 
+            const vy = playerStart.y + dy; 
+            
+            if ( 
+              vx >= 0 && 
+              vy >= 0 && 
+              vy < m.length && 
+              vx < m[0].length && Math.abs(dx) + Math.abs(dy) <= visionRadius 
+            ) { 
+                if (hasLineOfSight(m, playerStart.x, playerStart.y, vx, vy)) { 
+                    visible.add(`${vx},${vy}`); 
+                }
+              } 
+        } 
+    } 
+    setVisibleTiles(visible); 
+    setVisited(visible); // initial memory
 
+    //final touches
     setMoves(0);
     setSolved(false);
-  }, [size, enemyNumberValue, generateMaze]);
+  }, [visionRadius, size, enemyNumberValue, generateMaze]);
 
   useEffect(() => {
-  restartMaze();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    restartMaze();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // -------------------------------
   const getWalkableTiles = (maze: number[][]) => {
@@ -288,11 +322,7 @@ export default function MazePuzzle({
         return { x, y };
       });
 
-      if (
-        updated.some(
-          (e) => e.x === targetPlayer.x && e.y === targetPlayer.y
-        )
-      ) {
+      if (updated.some((e) => e.x === targetPlayer.x && e.y === targetPlayer.y)) {
         restartMaze();
       }
 
@@ -304,63 +334,84 @@ export default function MazePuzzle({
   // Player Movement
   // -------------------------------
   const tryMove = (dx: number, dy: number) => {
-  if (solved) return;
+      if (solved) return;
 
-  const nx = player.x + dx;
-  const ny = player.y + dy;
+      const nx = player.x + dx;
+      const ny = player.y + dy;
 
-  if (maze[ny] && maze[ny][nx] === 1) {
-    const newPlayer = { x: nx, y: ny };
-    setPlayer(newPlayer);
+      if (maze[ny] && maze[ny][nx] === 1) {
+        const newPlayer = { x: nx, y: ny };
+        setPlayer(newPlayer);
 
-    setSpawners(prev =>
-      prev.map(spawner => {
-        const key = `${spawner.x},${spawner.y}`;
+        //fog of war effect logic
+        // Light of sight
+        setVisibleTiles(() => {
+          const visible = new Set<string>();
 
-        console.log("Spawner BEFORE:", spawner);
+          for (let dy = -visionRadius; dy <= visionRadius; dy++) {
+            for (let dx = -visionRadius; dx <= visionRadius; dx++) {
+              const vx = newPlayer.x + dx;
+              const vy = newPlayer.y + dy;
 
-        if (spawner.hasSpawned) {
-          console.log("Already spawned → returning unchanged");
-          return spawner;
+              if (
+                vx >= 0 &&
+                vy >= 0 &&
+                vy < maze.length &&
+                vx < maze[0].length &&
+                Math.abs(dx) + Math.abs(dy) <= visionRadius
+              ) {
+                if (hasLineOfSight(maze, newPlayer.x, newPlayer.y, vx, vy)) {
+                  visible.add(`${vx},${vy}`);
+                }
+              }
+            }
+          }
+
+          return visible;
+        });
+        
+        // Mark all tiles within vision radius as visited
+        setVisited(prev => {
+          const next = new Set(prev);
+          visibleTiles.forEach(key => next.add(key));
+          return next;
+        });
+
+        //spawner logic
+        setSpawners(prev =>
+          prev.map(spawner => {
+            const key = `${spawner.x},${spawner.y}`;
+
+            if (spawner.hasSpawned) { return spawner; }
+            if (isPlayerNear(newPlayer.x, newPlayer.y, spawner.x, spawner.y)) { 
+              return { ...spawner, hasSpawned: true };
+            }
+            
+            return spawner;
+          })
+        );
+
+        setMoves(m => {
+          const newMoves = m + 1;
+          if (newMoves % enemySpeedValue === 0) {
+            moveEnemies(newPlayer);
+          }
+          return newMoves;
+        });
+
+        if (nx === exit.x && ny === exit.y) {
+          setSolved(true);
         }
-
-        if (isPlayerNear(newPlayer.x, newPlayer.y, spawner.x, spawner.y)) {
-          console.log("MARKING SPAWN at", key);
-          const updated = { ...spawner, hasSpawned: true };
-          console.log("Spawner AFTER:", updated);
-          return updated;
-        }
-
-        console.log("No spawn → returning unchanged");
-        return spawner;
-      })
-    );
-
-    setMoves(m => {
-      const newMoves = m + 1;
-      if (newMoves % enemySpeedValue === 0) {
-        moveEnemies(newPlayer);
       }
-      return newMoves;
-    });
-
-    if (nx === exit.x && ny === exit.y) {
-      setSolved(true);
-    }
-  }
-};
-  
-  useEffect(() => {
-  console.log("RESTART MAZE TRIGGERED");
-}, [maze]);
+    };
 
   // Keyboard controls
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowUp" || e.key === "w") tryMove(0, -1);
-      if (e.key === "ArrowDown" || e.key === "s") tryMove(0, 1);
-      if (e.key === "ArrowLeft" || e.key === "a") tryMove(-1, 0);
-      if (e.key === "ArrowRight" || e.key === "d") tryMove(1, 0);
+      if (e.key === "ArrowUp" || e.key === "w") tryMove(0, -1, VISION);
+      if (e.key === "ArrowDown" || e.key === "s") tryMove(0, 1, VISION);
+      if (e.key === "ArrowLeft" || e.key === "a") tryMove(-1, 0, VISION);
+      if (e.key === "ArrowRight" || e.key === "d") tryMove(1, 0, VISION);
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -383,6 +434,9 @@ useEffect(() => {
     if (before && !before.hasSpawned && spawner.hasSpawned) {
       // just flipped false -> true: do the side effect once
       spawnAt(spawner.x, spawner.y);
+      
+      // Reduce vision when a spawner activates 
+      setVisionRadius(v => Math.max(2, v - 1));
     }
   });
 
@@ -471,7 +525,7 @@ useEffect(() => {
     <div className="maze-puzzle">
       <audio
         ref={spawnSoundRef}
-        src="/sounds/Sculk_shrieker_shriek5.mp3"
+        src={spawnSoundSrc}
         preload="auto"
       />
 
@@ -507,17 +561,29 @@ useEffect(() => {
               enableEnemy &&
               enemies.some((e) => e.x === x && e.y === y);
 
+            { /* Spawner logic */ }
             const spawnerObj = enableEnemySpawn
               ? spawners.find((s) => s.x === x && s.y === y)
               : null;
-
             const isSpawner = !!spawnerObj;
             const isUsedSpawner = spawnerObj?.hasSpawned;
-
             const tileFlashes = flashes.filter(
               (f) => f.x === x && f.y === y
             );
+            
+            { /* Fog of war logic */ }
+            const key = `${x},${y}`;
+            const isVisible = visibleTiles.has(key);
+            const isVisited = visited.has(key);
+            
+            let fogStyle = {};
+            if (!isVisible && !isVisited) {
+              fogStyle = { background: "#000", opacity: 0.9 };
+            } else if (!isVisible && isVisited) {
+              fogStyle = { filter: "brightness(0.5)" };
+            }
 
+            { /* UI Movement */ }
             const isAdjacent =
               Math.abs(x - player.x) +
                 Math.abs(y - player.y) ===
@@ -545,9 +611,10 @@ useEffect(() => {
                     : "none",
                   outlineOffset: "-2px",
                   cursor: isAdjacent ? "pointer" : "default",
+                  ...fogStyle,
                 }}
               >
-                {isSpawner && (
+                {isVisible && isSpawner && (
                   <img
                     src={effectiveEnemySpawnSprite}
                     alt="enemySpawn"
@@ -566,7 +633,8 @@ useEffect(() => {
                   />
                 )}
 
-                {isExit && (
+                {/* render red or black text depending if can see it */}
+                {isVisible && isExit && (
                   <span
                     style={{
                       position: "absolute",
@@ -574,6 +642,22 @@ useEffect(() => {
                       left: "50%",
                       transform: "translate(-50%, -50%)",
                       color: "black",
+                      fontWeight: "bold",
+                      fontSize: "0.8rem",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    EXIT
+                  </span>
+                )}
+                {!isVisible && isExit && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      color: "red",
                       fontWeight: "bold",
                       fontSize: "0.8rem",
                       pointerEvents: "none",
@@ -598,70 +682,98 @@ useEffect(() => {
                   />
                 )}
 
-                {isEnemy && (
-  <img
-    src={effectiveEnemySprite}
-    alt="enemy"
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      pointerEvents: "none",
-    }}
-  />
-)}
+                {isVisible && isEnemy && (
+                  <img
+                    src={effectiveEnemySprite}
+                    alt="enemy"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      pointerEvents: "none",
+                    }}
+                  />
+                )}
 
-{/* render one overlay per flash (they will overlap if multiple) */}
-{tileFlashes.map((f) => (
-  <div
-    key={f.id}
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      background: "rgba(255, 0, 0, 0.65)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      color: "white",
-      fontWeight: 700,
-      fontSize: "0.8rem",
-      pointerEvents: "none",
-      animation: "spawnerPop 0.45s ease-out",
-    }}
-  >
-    Enemy!
-  </div>
-))}
-</div>
-);
-})
-)}
-</div>
+                {/* render one overlay per flash (they will overlap if multiple) */}
+                {tileFlashes.map((f) => (
+                  <div
+                    key={f.id}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      background: "rgba(255, 0, 0, 0.65)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "white",
+                      fontWeight: 700,
+                      fontSize: "0.8rem",
+                      pointerEvents: "none",
+                      animation: "spawnerPop 0.45s ease-out",
+                    }}
+                  >
+                    Enemy!
+                  </div>
+                ))}
+            </div>
+            );
+            })
+        )}
+        </div>
 
-<p>
-  Click on adjacent cells or use arrow keys / WASD to navigate the maze.
-  {enableEnemy && " Don’t let the enemy catch you!"}
-</p>
+        <p>
+          Click on adjacent cells or use arrow keys / WASD to navigate the maze.
+        </p>
 
-{unlockStages.map((stage, i) => {
-  const shouldShow =
-    (stage.moves !== undefined && moves >= stage.moves) ||
-    (stage.solved && solved);
+        {unlockStages.map((stage, i) => {
+          const shouldShow =
+            (stage.moves !== undefined && moves >= stage.moves) ||
+            (stage.solved && solved);
 
-  if (!shouldShow) return null;
+          if (!shouldShow) return null;
 
-  return (
-    <div key={i} className="puzzle-solved-content">
-      {stage.children}
+          return (
+            <div key={i} className="puzzle-solved-content">
+              {stage.children}
+            </div>
+            );
+        })}
     </div>
-  );
-})}
-</div>
-);
+    );
 }
+
+// Bresenham LOS implementation
+function hasLineOfSight(maze: number[][], x0: number, y0: number, x1: number, y1: number) {
+  let dx = Math.abs(x1 - x0);
+  let dy = Math.abs(y1 - y0);
+  let sx = x0 < x1 ? 1 : -1;
+  let sy = y0 < y1 ? 1 : -1;
+  let err = dx - dy;
+
+  let x = x0;
+  let y = y0;
+
+  while (true) {
+    if (maze[y][x] === 0) return false; // hit a wall
+
+    if (x === x1 && y === y1) return true;
+
+    const e2 = 2 * err;
+    if (e2 > -dy) {
+      err -= dy;
+      x += sx;
+    }
+    if (e2 < dx) {
+      err += dx;
+      y += sy;
+    }
+  }
+}
+
 
