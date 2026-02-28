@@ -408,10 +408,10 @@ export default function MazePuzzle({
   // Keyboard controls
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowUp" || e.key === "w") tryMove(0, -1, VISION);
-      if (e.key === "ArrowDown" || e.key === "s") tryMove(0, 1, VISION);
-      if (e.key === "ArrowLeft" || e.key === "a") tryMove(-1, 0, VISION);
-      if (e.key === "ArrowRight" || e.key === "d") tryMove(1, 0, VISION);
+      if (e.key === "ArrowUp" || e.key === "w") tryMove(0, -1);
+      if (e.key === "ArrowDown" || e.key === "s") tryMove(0, 1);
+      if (e.key === "ArrowLeft" || e.key === "a") tryMove(-1, 0);
+      if (e.key === "ArrowRight" || e.key === "d") tryMove(1, 0);
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
