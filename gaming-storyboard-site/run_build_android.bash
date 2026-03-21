@@ -110,8 +110,11 @@ mkdir -p "release-builds/${ANDROID_SUBFOLDER}/"
 cp android/app/build/outputs/apk/release/app-release.apk "release-builds/${ANDROID_SUBFOLDER}/"
 cp android/app/build/outputs/bundle/release/app-release.aab "release-builds/${ANDROID_SUBFOLDER}/"
 # rename
-mv "release-builds/${ANDROID_SUBFOLDER}/app-release.apk" "Hunjvo Android-${VERSION}.apk"
-mv "release-builds/${ANDROID_SUBFOLDER}/app-release.aab" "Hunjvo Android-${VERSION}.aab"
+(
+  cd "release-builds/${ANDROID_SUBFOLDER}"
+  mv "app-release.apk" "Hunjvo Android-${VERSION}.apk"
+  mv "app-release.aab" "Hunjvo Android-${VERSION}.aab"
+)
 
 echo "✅ Signed builds ready:"
 ls -lh "release-builds/${ANDROID_SUBFOLDER}"
