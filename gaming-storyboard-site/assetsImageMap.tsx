@@ -98,6 +98,9 @@ export const assetsImage: Record<string, string> = {
   "d527_AncientCity.png": "https://i.ibb.co/MDrp7v2p/d527-Ancient-City.png",
   "d532_AncientCity.png": "https://i.ibb.co/ymPJhsHs/d532-Ancient-City.png",
   "d533_MonsterSpiderChamber.png": "https://i.ibb.co/MwGNgvS/d533-Monster-Spider-Chamber.png",
+  "d549_NetherPigs.png": "https://i.ibb.co/G47tbnnY/d549-Nether-Pigs.png",
+  "d552_AnotherPortal.png": "https://i.ibb.co/tpyywryd/d552-Another-Portal.png",
+  "d553_AnotherPortalEyeGlass.png": "https://i.ibb.co/S7vg1Yp2/d553-Another-Portal-Eye-Glass.png",
   "Noor&Efe.png": "https://i.ibb.co/pjnLFSMH/Noor-Efe.png",
   "NoorGolden.png": "https://i.ibb.co/rGPR6BQ5/Noor-Golden.png",
   "NoorGoldenZombieHorseWithSteve.png": "https://i.ibb.co/zWYyQhRT/Noor-Golden-Zombie-Horse-With-Steve.png",
@@ -115,5 +118,7 @@ export const assetsImage: Record<string, string> = {
   "NoorWorldChargedCreeper.png": "https://i.ibb.co/bgF3rG1P/Noor-World-Charged-Creeper.png",
   "NoorWorldCreeperParty.png": "https://i.ibb.co/Fk1ttbN5/Noor-World-Creeper-Party.png",
   "NoorWorldCreeperParty2.png": "https://i.ibb.co/h1y9LmgW/Noor-World-Creeper-Party2.png",
-  "NoorZombie.png": "https://i.ibb.co/Kxrr5Syb/Noor-Zombie.png"
+  "NoorZombie.png": "https://i.ibb.co/Kxrr5Syb/Noor-Zombie.png",
+  "party1.png": "https://i.ibb.co/ccydbhL7/party1.png",
+  "party2.png": "https://i.ibb.co/wFbnDYN9/party2.png"
 };
