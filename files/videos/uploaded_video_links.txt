@@ -57,3 +57,8 @@ d503_AdventuringAtNight.mp4# https://player.vimeo.com/video/1166085823
 d504_AnotherVillage.mp4# https://player.vimeo.com/video/1166086369
 d505_Adventuring.mp4# https://player.vimeo.com/video/1166086433
 d503_AdventuringNearPaleGarden.mp4# https://player.vimeo.com/video/1166086583
+Extra_HunjvoMazeRun1.mp4# https://player.vimeo.com/video/1176333623
+Extra_HunjvoMazeRun2.mp4# https://player.vimeo.com/video/1176334555
+d578_Explore.mp4# https://player.vimeo.com/video/1176335759
+d579_AnotherVillageIntro.mp4# https://player.vimeo.com/video/1176335916
+d502_AdventuringStart.mp4# https://player.vimeo.com/video/1176336044
