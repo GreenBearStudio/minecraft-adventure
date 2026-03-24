@@ -167,3 +167,5 @@ NoorHouseWithChicks.png# https://i.ibb.co/7J0PK7YV/Noor-House-With-Chicks.png
 NoorDragon1.png# https://i.ibb.co/PZqFwtvy/Noor-Dragon1.png
 HunjvoExplore6.png# https://i.ibb.co/XkkYYCCy/Hunjvo-Explore6.png
 NoorMineshaft.png# https://i.ibb.co/Qv4RkbXB/Noor-Mineshaft.png
+Extra_HunjvoMazeRun1Host.png# https://i.ibb.co/zTK6678f/Extra-Hunjvo-Maze-Run1-Host.png
+Extra_HunjvoMazeRun2Intro.png# https://i.ibb.co/mVTF53wV/Extra-Hunjvo-Maze-Run2-Intro.png
