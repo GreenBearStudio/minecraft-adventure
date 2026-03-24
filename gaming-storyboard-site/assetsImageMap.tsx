@@ -111,6 +111,8 @@ export const assetsImage: Record<string, string> = {
   "d553_AnotherVillageOutside2.png": "https://i.ibb.co/F44R9D5q/d553-Another-Village-Outside2.png",
   "d553_PortalChest.png": "https://i.ibb.co/CprYGPYn/d553-Portal-Chest.png",
   "d555_GlowBerryTree.png": "https://i.ibb.co/prP9VNvF/d555-Glow-Berry-Tree.png",
+  "Extra_HunjvoMazeRun1Host.png": "https://i.ibb.co/zTK6678f/Extra-Hunjvo-Maze-Run1-Host.png",
+  "Extra_HunjvoMazeRun2Intro.png": "https://i.ibb.co/mVTF53wV/Extra-Hunjvo-Maze-Run2-Intro.png",
   "HunjvoExplore1.png": "https://i.ibb.co/VW8j9y7p/Hunjvo-Explore1.png",
   "HunjvoExplore2.png": "https://i.ibb.co/B8wdQ3y/Hunjvo-Explore2.png",
   "HunjvoExplore3.png": "https://i.ibb.co/Pzcmph2N/Hunjvo-Explore3.png",
