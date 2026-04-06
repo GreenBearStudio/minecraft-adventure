@@ -60,8 +60,14 @@ export const assetsVideo: Record<string, string> = {
   "d579_AnotherVillageIntro.mp4": "https://player.vimeo.com/video/1176335916",
   "Extra_HunjvoMazeRun1.mp4": "https://player.vimeo.com/video/1176333623",
   "Extra_HunjvoMazeRun2.mp4": "https://player.vimeo.com/video/1176334555",
+  "NoorAdventure1.mp4": "https://player.vimeo.com/video/1180344206",
+  "NoorAdventure2.mp4": "https://player.vimeo.com/video/1180343112",
+  "NoorAdventure3.mp4": "https://player.vimeo.com/video/1180344089",
   "NoorBattle.mp4": "https://player.vimeo.com/video/1165417258",
   "NoorBattleWithEfe.mp4": "https://player.vimeo.com/video/1165417899",
+  "NoorEfeHunjvo_RaidWin.mp4": "https://player.vimeo.com/video/1180343592",
   "NoorStoryTime.mp4": "https://player.vimeo.com/video/1165417725",
+  "NoorWorldExplore1.mp4": "https://player.vimeo.com/video/1180343376",
+  "NoorWorldExplore2.mp4": "https://player.vimeo.com/video/1180344867",
   "NoorWorldIntro.mp4": "https://player.vimeo.com/video/1157994054"
 };
