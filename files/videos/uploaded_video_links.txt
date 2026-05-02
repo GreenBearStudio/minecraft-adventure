@@ -68,3 +68,10 @@ NoorEfeHunjvo_RaidWin.mp4# https://player.vimeo.com/video/1180343592
 NoorAdventure3.mp4# https://player.vimeo.com/video/1180344089
 NoorAdventure1.mp4# https://player.vimeo.com/video/1180344206
 NoorWorldExplore2.mp4# https://player.vimeo.com/video/1180344867
+NoorHunjvoBattle_CreepyMan1.mp4# https://player.vimeo.com/video/1187784979
+NoorEfeHunjvo_Trail4.mp4# https://player.vimeo.com/video/1187786064
+NoorUnderground1.mp4# https://player.vimeo.com/video/1187788839
+NoorEfeHunjvo_Trail3.mp4# https://player.vimeo.com/video/1187790029
+NoorEfeHunjvo_Trail1.mp4# https://player.vimeo.com/video/1187792161
+NoorEfeHunjvo_Trail2.mp4# https://player.vimeo.com/video/1187794411
+NoorHunjvoBattle_CreepyMan2.mp4# https://player.vimeo.com/video/1187795115

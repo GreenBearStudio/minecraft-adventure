@@ -34,6 +34,7 @@ interface MazePuzzleProps {
   enemyNumber?: string;
   enemySpawnNumber?: string;
   children?: ReactNode;
+  enableAttack?: boolean;
 }
 
 export default function MazePuzzle({
@@ -49,6 +50,7 @@ export default function MazePuzzle({
   enemyNumber = "1",
   enemySpawnNumber = "0",
   children,
+  enableAttack = false,
 }: MazePuzzleProps) {
   const sizeMap: Record<Difficulty, number> = {
     easy: 7,
@@ -76,7 +78,13 @@ export default function MazePuzzle({
   }
 
   // Flash system
-  type Flash = { id: string; x: number; y: number; expiresAt: number };
+  type Flash = { 
+      id: string; 
+      x: number; 
+      y: number; 
+      expiresAt: number;
+      type: "spawn" | "sword";
+    };
   const FLASH_DURATION = 500;
   const [flashes, setFlashes] = useState<Flash[]>([]);
   const flashTimeouts = useRef<Record<string, number>>({});
@@ -276,7 +284,13 @@ export default function MazePuzzle({
       `${sx}-${sy}-${Date.now()}-` +
       Math.random().toString(36).slice(2, 6);
     const expiresAt = Date.now() + FLASH_DURATION;
-    const flash: Flash = { id, x: sx, y: sy, expiresAt };
+    const flash: Flash = { 
+      id, 
+      x: sx, 
+      y: sy, 
+      expiresAt, 
+      type: "spawn" 
+    };
 
     setFlashes((prev) => [...prev, flash]);
 
@@ -329,6 +343,52 @@ export default function MazePuzzle({
       return updated;
     });
   };
+  
+  // -------------------------------
+  // Player Attack
+  // -------------------------------
+  const swingSword = useCallback(() => {
+      if (!enableAttack) return;
+  
+      const px = player.x;
+      const py = player.y;
+
+      const adjacent = [
+        { x: px + 1, y: py },
+        { x: px - 1, y: py },
+        { x: px, y: py + 1 },
+        { x: px, y: py - 1 },
+      ];
+
+      setEnemies(prev =>
+        prev.filter(e =>
+          !adjacent.some(a => a.x === e.x && a.y === e.y)
+        )
+      );
+
+      // Optional: sword flash effect
+      const id = `swing-${Date.now()}`;
+      const flashTiles = adjacent.map(a => `${a.x},${a.y}`);
+
+      flashTiles.forEach(key => {
+        const [fx, fy] = key.split(",").map(Number);
+        const flash: Flash = {
+          id: `${id}-${key}`,
+          x: fx,
+          y: fy,
+          expiresAt: Date.now() + 200,
+          type: "sword"
+        };
+        setFlashes(prev => [...prev, flash]);
+
+        const t = window.setTimeout(() => {
+          setFlashes(prev => prev.filter(f => f.id !== flash.id));
+          delete flashTimeouts.current[flash.id];
+        }, 200);
+
+        flashTimeouts.current[flash.id] = t;
+      });
+    }, [player]);
 
   // -------------------------------
   // Player Movement
@@ -371,10 +431,36 @@ export default function MazePuzzle({
         });
         
         // Mark all tiles within vision radius as visited
-        setVisited(prev => {
-          const next = new Set(prev);
-          visibleTiles.forEach(key => next.add(key));
-          return next;
+        setVisibleTiles(() => {
+          const visible = new Set<string>();
+
+          for (let dy = -visionRadius; dy <= visionRadius; dy++) {
+            for (let dx = -visionRadius; dx <= visionRadius; dx++) {
+              const vx = newPlayer.x + dx;
+              const vy = newPlayer.y + dy;
+
+              if (
+                vx >= 0 &&
+                vy >= 0 &&
+                vy < maze.length &&
+                vx < maze[0].length &&
+                Math.abs(dx) + Math.abs(dy) <= visionRadius
+              ) {
+                if (hasLineOfSight(maze, newPlayer.x, newPlayer.y, vx, vy)) {
+                  visible.add(`${vx},${vy}`);
+                }
+              }
+            }
+          }
+
+          // Update visited using the *new* visible set
+          setVisited(prev => {
+            const next = new Set(prev);
+            visible.forEach(key => next.add(key));
+            return next;
+          });
+
+          return visible;
         });
 
         //spawner logic
@@ -412,6 +498,11 @@ export default function MazePuzzle({
       if (e.key === "ArrowDown" || e.key === "s") tryMove(0, 1);
       if (e.key === "ArrowLeft" || e.key === "a") tryMove(-1, 0);
       if (e.key === "ArrowRight" || e.key === "d") tryMove(1, 0);
+      // Player Attack
+      if (e.key === " " && enableAttack) {
+          e.preventDefault();
+          swingSword();
+        }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -544,6 +635,11 @@ useEffect(() => {
           catches you, the maze restarts.
         </p>
       )}
+      {enableAttack && (
+        <p style={{ color: "#cc4444", fontSize: "0.9rem" }}>
+          Use your sword to attack nearby enemies! Space or click on the player! 
+        </p>
+      )}
 
       <div
         style={{
@@ -588,17 +684,28 @@ useEffect(() => {
               Math.abs(x - player.x) +
                 Math.abs(y - player.y) ===
                 1 && maze[y][x] === 1;
+                
+            { /* UI Player Attack */ }
+            const isPlayerTile = x === player.x && y === player.y;
 
             return (
               <div
                 key={`${x}-${y}`}
                 onClick={() => {
+                  {/* Player Attack */}
+                  if (isPlayerTile && enableAttack) {
+                    swingSword();
+                    return;
+                  }
+                  
+                  {/* Player Move */}
                   if (isAdjacent) {
                     const dx = x - player.x;
                     const dy = y - player.y;
                     tryMove(dx, dy);
                   }
                 }}
+                
                 style={{
                   width: "var(--tile-size)",
                   height: "var(--tile-size)",
@@ -698,29 +805,37 @@ useEffect(() => {
                 )}
 
                 {/* render one overlay per flash (they will overlap if multiple) */}
-                {tileFlashes.map((f) => (
-                  <div
-                    key={f.id}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      background: "rgba(255, 0, 0, 0.65)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                      fontWeight: 700,
-                      fontSize: "0.8rem",
-                      pointerEvents: "none",
-                      animation: "spawnerPop 0.45s ease-out",
-                    }}
-                  >
-                    Enemy!
-                  </div>
-                ))}
+                {tileFlashes.map((f) => {
+                  const isSword = f.type === "sword";
+                  const isSpawn = f.type === "spawn";
+
+                  return (
+                    <div
+                      key={f.id}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        pointerEvents: "none",
+                        animation: isSword ? "swordSlash 0.2s ease-out" : "spawnerPop 0.45s ease-out",
+                        background: isSword 
+                          ? "rgba(255,255,255,0.4)" 
+                          : "rgba(255, 0, 0, 0.65)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: isSpawn ? "white" : "transparent",
+                        fontWeight: 700,
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {isSpawn ? "Enemy!" : ""}
+                    </div>
+                  );
+                })}
+
             </div>
             );
             })

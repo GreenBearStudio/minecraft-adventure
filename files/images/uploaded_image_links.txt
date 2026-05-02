@@ -177,3 +177,8 @@ NoorCoolness1.png# https://i.ibb.co/qMtmrgGR/Noor-Coolness1.png
 NoorAdventure1Chicks.png# https://i.ibb.co/84GLnndM/Noor-Adventure1-Chicks.png
 NoorAdventure2BabyChick.png# https://i.ibb.co/8gS84Jz6/Noor-Adventure2-Baby-Chick.png
 d606_FortressTopView1.png# https://i.ibb.co/LzcwZBcg/d606-Fortress-Top-View1.png
+NoorWorldWolfBabies2.png# https://i.ibb.co/s7dwXcx/Noor-World-Wolf-Babies2.png
+NoorWorldCreeperBattle.png# https://i.ibb.co/yn1VfyfS/Noor-World-Creeper-Battle.png
+NoorCreepyWorld_1.png# https://i.ibb.co/DH56mQ5w/Noor-Creepy-World-1.png
+NoorWorldWolvBabies1.png# https://i.ibb.co/RTJdHpB4/Noor-World-Wolv-Babies1.png
+d367_FortressUnderAttack.png# https://i.ibb.co/998Bz1KH/d367-Fortress-Under-Attack.png

@@ -43,3 +43,19 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
+@keyframes swordSlash {
+  0% {
+    opacity: 0.9;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2) rotate(15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4) rotate(30deg);
+  }
+}
+
+
